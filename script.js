@@ -157,7 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
     sobre: "Transição para Tech | +10 anos em análise de dados, liderança e gestão de processos. Atual estudante de Engenharia de Software / TPSI. Foco em lógica, automação e desenvolvimento de software.",
     skills: "Linguagens & Web: Python, Java, C/C++, JavaScript, HTML5, CSS3<br>Bases de Dados: SQL<br>Infraestrutura: Linux (Ubuntu), Git, GitHub, Proxmox",
     status: "Atualmente a cursar TPSI (Nível 5) no IEFP Porto.<br>Disponível para oportunidades de Estágio Curricular e Projetos de Desenvolvimento.",
-    contacto: "Email: mauricio.patespt@gmail.com<br>LinkedIn / GitHub: Links no topo da página.",
+    contacto: "Para mensagens rápidas, utilize o formulário ao final da página. Links do LinkedIn e GitHub estão disponíveis no topo.",
   };
 
   const initialLines = [

@@ -298,7 +298,7 @@ body.dark-theme .form-control::placeholder {
     }
 }
 
-/* --- TELEMÓVEIS / ECRÃS PEQUENOS (Ecrãs até 767.98px) --- */
+/* --- TELEMÓVEIS / ECRÃS PEQUENOS  --- */
 @media (max-width: 767.98px) {
 
     /* 1. SECÇÃO DE PERFIL: Passa de grelha horizontal para disposição vertical empilhada */
@@ -391,7 +391,7 @@ body.dark-theme .form-control::placeholder {
     }
 }
 /* ==========================================================================
-   TERMINAL MODO CLARO - PRETO EM NEGRITO & MAIOR DESTAQUE NOS COMANDOS
+   TERMINAL MODO CLARO
    ========================================================================== */
 
 /* 1. Corpo Geral do Terminal */
