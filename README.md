@@ -26,13 +26,12 @@ Uma aplicação web responsiva e interativa desenvolvida para consolidar e apres
 
 # Estrutura do Projeto
 
-.
-├── index.html            # Página principal (CV & Perfil)
-├── portfolio.html        # Página de projetos com filtragem dinâmica
-├── style.css             # Estilos personalizados, variáveis CSS e temas
-├── script.js             # Lógica do terminal, filtros e alternador de temas
-├── img/                  # Imagens e ícones do projeto
-├── bootstrap-5.3.8-dist/ # Ficheiros do framework Bootstrap
-└── Projetos_html/        # Subprojetos e aplicações interativas
+-> index.html            # Página principal (CV & Perfil)
+-> portfolio.html        # Página de projetos com filtragem dinâmica
+-> style.css             # Estilos personalizados, variáveis CSS e temas
+-> script.js             # Lógica do terminal, filtros e alternador de temas
+-> img/                  # Imagens e ícones do projeto
+-> bootstrap-5.3.8-dist/ # Ficheiros do framework Bootstrap
+-> Projetos_html/        # Subprojetos e aplicações interativas
 
 
