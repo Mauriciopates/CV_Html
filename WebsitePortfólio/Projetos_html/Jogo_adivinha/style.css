@@ -1,0 +1,219 @@
+/* Configurações Globais (Reset) */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Variáveis de Cores - Tema Claro (Padrão) */
+:root {
+    --bg-body: #f0f2f5;
+    --bg-container: white;
+    --text-main: #333;
+    --text-sub: #666;
+    --border-input: #ccc;
+    --bg-reset-btn: #e0e0e0;
+    --text-reset-btn: #333;
+    --hover-reset-btn: #cccccc;
+    --border-stats: #eee;
+}
+
+/* Variáveis de Cores - Tema Escuro */
+body.dark-mode {
+    --bg-body: #121212;
+    --bg-container: #1e1e1e;
+    --text-main: #f5f5f5;
+    --text-sub: #b0b0b0;
+    --border-input: #444;
+    --bg-reset-btn: #333;
+    --text-reset-btn: #fff;
+    --hover-reset-btn: #444;
+    --border-stats: #333;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--bg-body);
+    color: var(--text-main);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Contentor do Botão de Tema */
+.theme-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+}
+
+.btn-theme {
+    background: none;
+    border: 1px solid var(--border-input);
+    color: var(--text-main);
+    padding: 6px 12px;
+    font-size: 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    flex: none; /* Evita que o botão estique */
+    width: auto;
+    transition: all 0.3s;
+}
+
+.btn-theme:hover {
+    background-color: var(--border-stats);
+}
+
+/* Contentor Principal */
+.game-container {
+    background-color: var(--bg-container);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+    margin: 20px;
+    transition: background-color 0.3s;
+}
+
+header h1 {
+    color: #0077cc;
+    margin-bottom: 10px;
+}
+
+header p {
+    font-size: 14px;
+    color: var(--text-sub);
+    margin-bottom: 25px;
+}
+
+/* Área de Input e Botões */
+.game-box {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    text-align: left;
+}
+
+.input-group label {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+input[type="number"] {
+    padding: 12px;
+    border: 2px solid var(--border-input);
+    background-color: var(--bg-container);
+    color: var(--text-main);
+    border-radius: 8px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s, background-color 0.3s, color 0.3s;
+}
+
+input[type="number"]:focus {
+    border-color: #0077cc;
+}
+
+/* Botões */
+.button-group {
+    display: flex;
+    gap: 10px;
+}
+
+button {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+#btnCheck {
+    background-color: #0077cc;
+    color: white;
+}
+
+#btnCheck:hover {
+    background-color: #005599;
+}
+
+#btnReset {
+    background-color: var(--bg-reset-btn);
+    color: var(--text-reset-btn);
+}
+
+#btnReset:hover {
+    background-color: var(--hover-reset-btn);
+}
+
+/* Mensagens de Feedback (Mantêm o destaque colorido) */
+.message {
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 6px;
+    min-height: 40px;
+}
+
+.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+/* Ajuste leve nos alertas para melhor contraste no modo escuro */
+body.dark-mode .correct {
+    background-color: #1b3a24;
+    color: #a5d6a7;
+    border-color: #2e7d32;
+}
+
+.tip {
+    background-color: #fff3e0;
+    color: #ef6c00;
+    border: 1px solid #ffe0b2;
+}
+
+body.dark-mode .tip {
+    background-color: #3e2723;
+    color: #ffb74d;
+    border-color: #ef6c00;
+}
+
+.error {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ffcdd2;
+}
+
+body.dark-mode .error {
+    background-color: #3e1b1b;
+    color: #ff8a80;
+    border-color: #c62828;
+}
+
+/* Estatísticas */
+.stats {
+    margin-top: 15px;
+    font-size: 14px;
+    font-weight: bold;
+    border-top: 1px solid var(--border-stats);
+    padding-top: 15px;
+}
+
+/* Utilitários */
+.hidden {
+    display: none;
+}

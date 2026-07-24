@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfólio & CV | Maurício Souza Pates</title>
+    
+
+    <link rel="stylesheet" href="bootstrap-5.3.8-dist/css/bootstrap.min.css"> <!-- link com a pasta do bootstrap -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="img/ico.png" type="image/x-icon">
+
+
+</head>
+
+<!-- Toast de Feedback -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+  <div id="filterToast" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="d-flex">
+      <div class="toast-body" id="toastMessage">
+        Filtro aplicado com sucesso!
+      </div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+  </div>
+</div>
+
+
+<body class="bg-light text-dark">
+
+    <!-- Cabeçalho da navegação -->
+    <header class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-sm">
+        <div class="container">
+
+            <button id="themeToggle" class="btn-theme">🌙 Modo Escuro</button>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" >
+
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <nav class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-menu navbar-nav ms-auto gap-2">
+                    <li class="nav-item"><a class="nav-link" href="index.html#perfil">Perfil</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.html#competencias">Competências</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.html#experiencia">Experiência</a></li>
+                    <li class="nav-item"><a class="nav-link text-info fw-bold" href="portfolio.html">Portfólio</a></li>     
+                    <li class="nav-item"><a class="nav-link" href="index.html#contacto">Contacto</a></li>
+                </ul>
+            </nav>  
+        </div>
+    </header>
+
+
+    <main class="container my-5">
+
+        <!-- Secção Perfil / Apresentação -->
+        <section id="perfil" class="mb-5">
+            <div class="card shadow-sm border-0 p-4">
+                <div class="row align-items-center">
+                    <div class="col-md-3 text-center mb-3 mb-md-0">
+                        <img src="img/Perfil.png" alt="Foto de Perfil" class="img-fluid perfil-img" >
+                    </div>
+                    <div class="col-md-9">
+                        <h1 class="h2 text-primary fw-bold mb-1">Maurício Souza Pates</h1>
+                        <h2 class="h5 text-muted mb-3">Sistemas de Informação & Desenvolvimento de Software</h2>
+                        <p class="mb-2"><strong>Localização:</strong> Cedofeita - Porto | <strong>Email:</strong> mauricio.patespt@gmail.com</p>
+                        <div class="mb-3">
+                           
+                        <a href="https://www.github.com/Mauriciopates" target="_blank" class="btn btn-sm btn-outline-secondary me-2">GitHub</a>
+                        <a href="https://www.linkedin.com/in/mauricio-pates" target="_blank" class="btn btn-sm btn-outline-primary">LinkedIn</a>
+                        </div>
+
+
+                        <h3 class="h5 text-secondary border-bottom pb-2">Resumo Profissional</h3>
+                        <p class="text-secondary">
+                            Sou um profissional em transição estratégica de carreira para o setor tecnológico, com mais de uma década de experiência sólida em posições analíticas, liderança operacional e gestão de dados comerciais. Atualmente a frequentar formação avançada e especializada em engenharia de software e programação de sistemas, procurando aplicar forte raciocínio lógico, competências de otimização de processos e gestão de inventários em oportunidades de estágio e desenvolvimento de software.
+                        </p> 
+
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+                <section id="terminal-card">
+        
+            <div class="terminal-card">
+                <div class="terminal-header">
+                    <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                    <span class="terminal-title">carreira.status</span>
+                </div>
+                <div class="terminal-body" id="terminalBody" aria-label="...">
+            <!-- Linhas injetadas via script para comandos do terminal. -->
+                </div>
+
+        </section>
+        <!-- Secção Competências Técnicas & Idiomas -->
+        <section id="competencias" class="mb-5">
+            <div class="row g-4">
+                <div class="col-md-8">
+                    <div class="card shadow-sm border-0 h-100 p-4">
+                        <h3 class="h4 text-primary border-bottom pb-2 mb-3">Competências Técnicas</h3>
+                        <div class="mb-3">
+                            <h4 class="h6 fw-bold">Linguagens & Web:</h4>
+                            <span class="badge bg-primary">Python</span>
+                            <span class="badge bg-primary">Java</span>
+                            <span class="badge bg-primary">C</span>
+                            <span class="badge bg-primary">JavaScript</span>
+                            <span class="badge bg-primary">HTML5</span>
+                            <span class="badge bg-primary">CSS3</span>
+                        </div>
+                        <div class="mb-3">
+                            <h4 class="h6 fw-bold">Bases de Dados:</h4>
+                            <p class="mb-0 text-secondary">Modelação e estruturação de bases de dados relacionais com SQL.</p>
+                        </div>
+                        <div>
+                            <h4 class="h6 fw-bold">Infraestrutura & Ferramentas:</h4>
+                            <p class="mb-0 text-secondary">Proxmox, Administração de servidores Linux (Ubuntu), Git, GitHub, Metodologias Ágeis.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card shadow-sm border-0 h-100 p-4">
+                        <h3 class="h4 text-primary border-bottom pb-2 mb-3">Idiomas & Certificações</h3>
+                        <h4 class="h6 fw-bold mb-1">Idiomas</h4>
+                        <ul class="list-unstyled text-secondary mb-3">
+                            <li><strong>Português:</strong> Fluente Nativo</li>
+                            <li><strong>Inglês:</strong> A2</li>
+                        </ul>
+                        <h4 class="h6 fw-bold mb-1">Certificações</h4>
+                        <ul class="small text-secondary ps-3 mb-0">
+                            <li>SQL do Zero ao Avançado (Udemy 2026)</li>
+                            <li>Microsoft Excel Avançado (Bradesco 2020)</li>
+                            <li>Comunicação, Oratória e Liderança (2021)</li>
+                            <li>Gestão de Vendas (FGV 2021)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Secção Experiência e Formação -->
+        <section id="experiencia" class="mb-5">
+            <div class="row g-4">
+                <div class="col-md-7">
+                    <div class="card shadow-sm border-0 p-4 h-100">
+                        <h3 class="h4 text-primary border-bottom pb-2 mb-4">Experiência Profissional</h3>
+                        
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <h4 class="h6 fw-bold mb-0">Cozinheiro de 1ª - AHM Hotel</h4>
+                                <span class="badge bg-secondary">03/2025 - 03/2026</span>
+                            </div>
+                            <small class="text-muted d-block mb-2">Porto, Portugal</small>
+                            <ul class="small text-secondary ps-3">
+                                <li>Supervisão de stocks, controlo de insumos e análise quantitativa de perdas.</li>
+                                <li>Planeamento administrativo e emissão de encomendas a fornecedores.</li>
+                                <li>Coordenação e liderança da equipa sob alta pressão.</li>
+                            </ul>
+                        </div>
+
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <h4 class="h6 fw-bold mb-0">Analista de Vendas Sénior - Farmácia Campeã</h4>
+                                <span class="badge bg-secondary">02/2019 - 08/2022</span>
+                            </div>
+                            <small class="text-muted d-block mb-2">São Paulo, Brasil</small>
+                            <ul class="small text-secondary ps-3">
+                                <li>Organização analítica na prevenção de perdas de inventário na rede de distribuição.</li>
+                                <li>Análises detalhadas de compras e stocks com métricas quantitativas.</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <h4 class="h6 fw-bold mb-0">Líder de Loja - Farmácia Campeã</h4>
+                                <span class="badge bg-secondary">08/2015 - 01/2019</span>
+                            </div>
+                            <small class="text-muted d-block mb-2">São Paulo, Brasil</small>
+                            <ul class="small text-secondary ps-3">
+                                <li>Gestão das atividades operacionais e liderança direta das equipas.</li>
+                                <li>Planeamento de escalas, recepção de mercadorias e resolução de problemas.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-5">
+                    <div class="card shadow-sm border-0 p-4 h-100">
+                        <h3 class="h4 text-primary border-bottom pb-2 mb-4">Habilitações Académicas</h3>
+                        
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <h4 class="h6 fw-bold mb-0">Técnico Esp. em TPSI (Nível 5)</h4>
+                                <span class="badge bg-primary">2026 - Presente</span>
+                            </div>
+                            <small class="text-muted d-block mb-2">IEFP Porto</small>
+                            <p class="small text-secondary">Foco em algoritmos, estruturas de dados, redes, automação de scripts, manutenção de código e controlo de versões com Git.</p>
+                        </div>
+
+                        <div>
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <h4 class="h6 fw-bold mb-0">Bacharelato em Gestão Comercial</h4>
+                                <span class="badge bg-secondary">2020 - 2022</span>
+                            </div>
+                            <small class="text-muted d-block mb-2">UNIP - Universidade Paulista</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>  
+
+
+
+
+    
+    
+        <!-- Secção Contacto (Integração com Formspree) -->
+        <section id="contacto" class="mb-5">
+            <div class="card shadow-sm border-0 p-4">
+                <h3 class="h4 text-primary border-bottom pb-2 mb-4">Entrar em Contacto</h3>
+                <form id="contact-form" action="https://formspree.io/f/xzdnjzgv" method="POST">
+                    <div class="mb-3">
+                        <label for="name" class="form-label fw-bold">Nome Completo *</label>
+                        <input type="text" class="form-control" id="name" name="name" required placeholder="Seu nome completo">
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label fw-bold">E-mail Profissional *</label>
+                        <input type="email" class="form-control" id="email" name="_replyto" required placeholder="seu.email@empresa.com">
+                    </div>
+                    <div class="mb-3">
+                        <label for="message" class="form-label fw-bold">Mensagem *</label>
+                        <textarea class="form-control" id="message" name="message" rows="4" required placeholder="Como podemos colaborar ou discutir uma oportunidade de estágio?"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 fw-bold">Enviar Mensagem</button>
+                </form>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Rodapé da página -->
+
+    <footer class="bg-dark text-light text-center py-4 mt-auto">
+
+        <div class="container">
+            <p class="mb-0 small">&copy; 2026 Maurício Souza Pates. Todos os direitos reservados.</p>
+        </div>
+
+    </footer>
+
+    <!-- Scripts -->
+    <script src="bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+
+</body>
+</html>

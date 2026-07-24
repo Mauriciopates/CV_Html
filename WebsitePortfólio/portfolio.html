@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfólio Técnico | Maurício Souza Pates</title>
+    
+
+    <link rel="stylesheet" href="bootstrap-5.3.8-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="img/ico.png" type="image/x-icon">
+
+
+</head>
+<body class="bg-light text-dark">
+
+    <!-- Cabeçalho / Navegação -->
+    <header class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-sm">
+        <div class="container position-relative d-flex justify-content-between align-items-center">
+            
+            <!-- Lado Esquerdo -->
+            <div>
+                <button id="theme-toggle" class="btn btn-outline-light btn-sm">🌙 Modo Escuro</button>
+            </div>
+
+            
+
+            <!-- Lado Direito -->
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="index.html#perfil">Perfil</a>
+                <a class="nav-link" href="index.html#competencias">Competências</a>
+                <a class="nav-link" href="index.html#experiencia">Experiência</a>
+                <a class="nav-link active text-info fw-bold" href="portfolio.html">Portfólio</a>
+                <a class="nav-link" href="index.html#contacto">Contacto</a>
+            </div>
+
+        </div>
+    </header>
+
+    <main class="container my-5">
+        <!-- Secção Portfólio Dinâmico -->
+        <section id="portfolio" class="mb-5">
+            <div class="card shadow-sm border-0 p-4">
+                <h1 class="h3 text-primary border-bottom pb-2 mb-3">Meu Portfólio Técnico</h1>
+                <p class="text-muted mb-3">Filtre os projetos pelas tecnologias utilizadas abaixo:</p>
+                
+                <!-- Botões de Filtragem -->
+                <div class="d-flex gap-2 mb-4 flex-wrap">
+                    <button class="btn btn-outline-primary btn-filter active" data-filter="all">Todos</button>
+                    <button class="btn btn-outline-primary btn-filter" data-filter="Python">Python</button>
+                    <button class="btn btn-outline-primary btn-filter" data-filter="Web">Web (HTML/CSS/JS)</button>
+                    <button class="btn btn-outline-primary btn-filter" data-filter="Java">Java</button>
+                </div>
+
+                <!-- Container Flex/Grid do Bootstrap para Injeção pelo JS -->
+                <div id="portfolio-container" class="row g-3">
+                    <!-- Ficheiros injetados via script.js -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Rodapé -->
+    <footer class="bg-dark text-light text-center py-4 mt-auto">
+        <div class="container">
+            <p class="mb-0 small">&copy; 2026 Maurício Souza Pates. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

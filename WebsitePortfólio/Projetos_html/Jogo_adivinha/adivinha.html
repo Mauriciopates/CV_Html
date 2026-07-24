@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo da Adivinha</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+    <main class="game-container">
+        <div class="theme-container">
+            <button id="themeToggle" class="btn-theme">🌙 Modo Escuro</button>
+        </div>
+
+        <header>
+            <h1>Jogo da Adivinha</h1>
+            <p>O CPU pensou num número entre <strong>1 e 50</strong>. Consegues adivinhar?</p>
+        </header>
+
+        <section class="game-box">
+            <div class="input-group">
+                <label for="userGuess">Introduz o teu palpite:</label>
+                <input type="number" id="userGuess" min="1" max="50" placeholder="Ex: 25">
+            </div>
+
+            <div class="button-group">
+                <button id="btnCheck">Verificar</button>
+                <button id="btnReset" class="hidden">Jogar Novamente</button>
+            </div>
+
+            <div id="feedback" class="message"></div>
+
+            <div style="margin-top: 20px;">
+            <a href="../../portfolio.html" class="btn btn-secondary">&larr; Voltar ao Portfólio</a>
+            </div>
+            
+            <footer class="stats">
+                <p>Tentativas: <span id="attemptsCount">0</span></p>
+            </footer>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column; /* Força os elementos a ficarem empilhados na vertical */
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    gap: 20px; /* Adiciona um espaçamento bonito entre o cartão e o botão */
+}
+.card {
+    background-color: #ffffff;
+    max-width: 550px;
+    width: 100%;
+    padding: 35px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    text-align: center;
+}
+
+h1 {
+    color: #2c3e50;
+    margin-bottom: 8px;
+    font-size: 28px;
+}
+
+.subtitulo {
+    color: #7f8c8d;
+    font-size: 15px;
+    margin-bottom: 25px;
+}
+
+button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    box-shadow: 0 4px 6px rgba(52, 152, 219, 0.2);
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+.curiosidades-container {
+    margin-top: 30px;
+    text-align: left;
+}
+
+/* Estado Oculto das Curiosidades */
+.curiosidade-item {
+    display: flex;
+    align-items: center;
+    background-color: #f8f9fa;
+    border-left: 4px solid #3498db;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 0 6px 6px 0;
+    
+    /* Propriedades para a transição suave */
+    max-height: 200px;
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 0.4s ease-out;
+    overflow: hidden;
+}
+
+/* Classe que esconde o elemento */
+.curiosidade-item.oculta {
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-bottom: 0;
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none; /* Evita interações enquanto invisível */
+}
+
+.numero {
+    background-color: #3498db;
+    color: white;
+    font-weight: bold;
+    min-width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 15px;
+    font-size: 14px;
+}
+
+.curiosidade-item p {
+    color: #34495e;
+    font-size: 15px;
+    line-height: 1.5;
+}
