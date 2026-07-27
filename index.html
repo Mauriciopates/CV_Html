@@ -13,17 +13,6 @@
 
 </head>
 
-<!-- Toast de Feedback -->
-<div class="toast-container position-fixed bottom-0 end-0 p-3">
-  <div id="filterToast" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
-    <div class="d-flex">
-      <div class="toast-body" id="toastMessage">
-        Filtro aplicado com sucesso!
-      </div>
-      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-    </div>
-  </div>
-</div>
 
 
 <body class="bg-light text-dark">
@@ -84,14 +73,16 @@
 
                 <section id="terminal-card">
         
+            <p class="terminal-hint">💬 Aqui tens um terminal! Escreve um comando (experimenta <code>help</code>) para saberes um resumo da minha carreira.</p>
             <div class="terminal-card">
                 <div class="terminal-header">
                     <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
                     <span class="terminal-title">carreira.status</span>
                 </div>
-                <div class="terminal-body" id="terminalBody" aria-label="...">
+                <div class="terminal-body" id="terminalBody" aria-label="Terminal de comandos do portfólio">
             <!-- Linhas injetadas via script para comandos do terminal. -->
                 </div>
+            </div>
 
         </section>
         <!-- Secção Competências Técnicas & Idiomas -->
@@ -102,12 +93,8 @@
                         <h3 class="h4 text-primary border-bottom pb-2 mb-3">Competências Técnicas</h3>
                         <div class="mb-3">
                             <h4 class="h6 fw-bold">Linguagens & Web:</h4>
-                            <span class="badge bg-primary">Python</span>
-                            <span class="badge bg-primary">Java</span>
-                            <span class="badge bg-primary">C</span>
-                            <span class="badge bg-primary">JavaScript</span>
-                            <span class="badge bg-primary">HTML5</span>
-                            <span class="badge bg-primary">CSS3</span>
+                            <!-- Badges injetados dinamicamente via script.js a partir do array "competencias" -->
+                            <div id="skills-linguagens" class="skills-list"></div>
                         </div>
                         <div class="mb-3">
                             <h4 class="h6 fw-bold">Bases de Dados:</h4>
@@ -119,7 +106,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <aside class="col-md-4">
                     <div class="card shadow-sm border-0 h-100 p-4">
                         <h3 class="h4 text-primary border-bottom pb-2 mb-3">Idiomas & Certificações</h3>
                         <h4 class="h6 fw-bold mb-1">Idiomas</h4>
@@ -135,7 +122,7 @@
                             <li>Gestão de Vendas (FGV 2021)</li>
                         </ul>
                     </div>
-                </div>
+                </aside>
             </div>
         </section>
 
@@ -146,7 +133,7 @@
                     <div class="card shadow-sm border-0 p-4 h-100">
                         <h3 class="h4 text-primary border-bottom pb-2 mb-4">Experiência Profissional</h3>
                         
-                        <div class="mb-4">
+                        <article class="mb-4">
                             <div class="d-flex justify-content-between align-items-center mb-1">
                                 <h4 class="h6 fw-bold mb-0">Cozinheiro de 1ª - AHM Hotel</h4>
                                 <span class="badge bg-secondary">03/2025 - 03/2026</span>
@@ -157,9 +144,9 @@
                                 <li>Planeamento administrativo e emissão de encomendas a fornecedores.</li>
                                 <li>Coordenação e liderança da equipa sob alta pressão.</li>
                             </ul>
-                        </div>
+                        </article>
 
-                        <div class="mb-4">
+                        <article class="mb-4">
                             <div class="d-flex justify-content-between align-items-center mb-1">
                                 <h4 class="h6 fw-bold mb-0">Analista de Vendas Sénior - Farmácia Campeã</h4>
                                 <span class="badge bg-secondary">02/2019 - 08/2022</span>
@@ -169,9 +156,9 @@
                                 <li>Organização analítica na prevenção de perdas de inventário na rede de distribuição.</li>
                                 <li>Análises detalhadas de compras e stocks com métricas quantitativas.</li>
                             </ul>
-                        </div>
+                        </article>
 
-                        <div>
+                        <article>
                             <div class="d-flex justify-content-between align-items-center mb-1">
                                 <h4 class="h6 fw-bold mb-0">Líder de Loja - Farmácia Campeã</h4>
                                 <span class="badge bg-secondary">08/2015 - 01/2019</span>
@@ -181,32 +168,32 @@
                                 <li>Gestão das atividades operacionais e liderança direta das equipas.</li>
                                 <li>Planeamento de escalas, recepção de mercadorias e resolução de problemas.</li>
                             </ul>
-                        </div>
+                        </article>
                     </div>
                 </div>
 
-                <div class="col-md-5">
+                <aside class="col-md-5">
                     <div class="card shadow-sm border-0 p-4 h-100">
                         <h3 class="h4 text-primary border-bottom pb-2 mb-4">Habilitações Académicas</h3>
                         
-                        <div class="mb-4">
+                        <article class="mb-4">
                             <div class="d-flex justify-content-between align-items-center mb-1">
                                 <h4 class="h6 fw-bold mb-0">Técnico Esp. em TPSI (Nível 5)</h4>
                                 <span class="badge bg-primary">2026 - Presente</span>
                             </div>
                             <small class="text-muted d-block mb-2">IEFP Porto</small>
                             <p class="small text-secondary">Foco em algoritmos, estruturas de dados, redes, automação de scripts, manutenção de código e controlo de versões com Git.</p>
-                        </div>
+                        </article>
 
-                        <div>
+                        <article>
                             <div class="d-flex justify-content-between align-items-center mb-1">
                                 <h4 class="h6 fw-bold mb-0">Bacharelato em Gestão Comercial</h4>
                                 <span class="badge bg-secondary">2020 - 2022</span>
                             </div>
                             <small class="text-muted d-block mb-2">UNIP - Universidade Paulista</small>
-                        </div>
+                        </article>
                     </div>
-                </div>
+                </aside>
             </div>
         </section>  
 
@@ -219,23 +206,48 @@
         <section id="contacto" class="mb-5">
             <div class="card shadow-sm border-0 p-4">
                 <h3 class="h4 text-primary border-bottom pb-2 mb-4">Entrar em Contacto</h3>
-                <form id="contact-form" action="https://formspree.io/f/xzdnjzgv" method="POST">
+                <form id="contact-form" action="https://formspree.io/f/xzdnjzgv" method="POST" novalidate>
                     <div class="mb-3">
                         <label for="name" class="form-label fw-bold">Nome Completo *</label>
                         <input type="text" class="form-control" id="name" name="name" required placeholder="Seu nome completo">
+                        <div class="invalid-feedback" id="name-error"></div>
                     </div>
                     <div class="mb-3">
                         <label for="email" class="form-label fw-bold">E-mail Profissional *</label>
                         <input type="email" class="form-control" id="email" name="_replyto" required placeholder="seu.email@empresa.com">
+                        <div class="invalid-feedback" id="email-error"></div>
                     </div>
                     <div class="mb-3">
                         <label for="message" class="form-label fw-bold">Mensagem *</label>
                         <textarea class="form-control" id="message" name="message" rows="4" required placeholder="Como podemos colaborar ou discutir uma oportunidade de estágio?"></textarea>
+                        <div class="invalid-feedback" id="message-error"></div>
                     </div>
-                    <button type="submit" class="btn btn-primary w-100 fw-bold">Enviar Mensagem</button>
+                    <button type="submit" class="btn btn-primary w-100 fw-bold" id="contact-submit">Enviar Mensagem</button>
                 </form>
             </div>
         </section>
+
+        <!-- Toast de Feedback -->
+        <div class="toast-container position-fixed bottom-0 end-0 p-3">
+            <div id="filterToast" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                 <div class="toast-body" id="toastMessage">
+                Filtro aplicado com sucesso!
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            </div>
+
+            <div id="contactToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body" id="contactToastMessage">
+                        Mensagem enviada com sucesso!
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+
 
     </main>
 

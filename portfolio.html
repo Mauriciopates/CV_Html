@@ -5,35 +5,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfólio Técnico | Maurício Souza Pates</title>
     
-
     <link rel="stylesheet" href="bootstrap-5.3.8-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="img/ico.png" type="image/x-icon">
-
-
 </head>
+
+<!-- Toast de Feedback -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+  <div id="filterToast" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="d-flex">
+      <div class="toast-body" id="toastMessage">
+        Filtro aplicado com sucesso!
+      </div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+  </div>
+</div>
+
 <body class="bg-light text-dark">
 
-    <!-- Cabeçalho / Navegação -->
+    <!-- Cabeçalho / Navegação Responsiva -->
     <header class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-sm">
-        <div class="container position-relative d-flex justify-content-between align-items-center">
+        <div class="container">
+
+            <button id="themeToggle" class="btn-theme">🌙 Modo Escuro</button>
             
-            <!-- Lado Esquerdo -->
-            <div>
-                <button id="theme-toggle" class="btn btn-outline-light btn-sm">🌙 Modo Escuro</button>
-            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Alternar navegação">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-            
-
-            <!-- Lado Direito -->
-            <div class="navbar-nav ms-auto">
-                <a class="nav-link" href="index.html#perfil">Perfil</a>
-                <a class="nav-link" href="index.html#competencias">Competências</a>
-                <a class="nav-link" href="index.html#experiencia">Experiência</a>
-                <a class="nav-link active text-info fw-bold" href="portfolio.html">Portfólio</a>
-                <a class="nav-link" href="index.html#contacto">Contacto</a>
-            </div>
-
+            <nav class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-menu navbar-nav ms-auto gap-2">
+                    <li class="nav-item"><a class="nav-link" href="index.html#perfil">Perfil</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.html#competencias">Competências</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.html#experiencia">Experiência</a></li>
+                    <li class="nav-item"><a class="nav-link active text-info fw-bold" href="portfolio.html">Portfólio</a></li>     
+                    <li class="nav-item"><a class="nav-link" href="index.html#contacto">Contacto</a></li>
+                </ul>
+            </nav>  
         </div>
     </header>
 

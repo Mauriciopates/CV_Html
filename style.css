@@ -1,7 +1,7 @@
-/* 1 - variaveis globais da página*/
+/* 1 - Variaveis globais da página */
 
 :root {
-    --primary-color: #0d6efd;       /* Utilziei do Bootstrap */
+    --primary-color: #0d6efd;       /* Utilizado do Bootstrap */
     --secondary-color: #0dcaf0;     /* Azul ciano/info */
     --bg-dark: #212529;             /* Fundo do Header/Footer */
     --bg-light: #f8f9fa;            /* Fundo geral da página */
@@ -10,10 +10,16 @@
     --text-muted: #6c757d;          /* Cor secundária do texto */
     --border-radius: 8px;           /* Arredondamento padrão */
     --transition-speed: 0.2s;       /* Velocidade das animações */
+
+    /* Escala tipográfica centralizada */
+    --font-size-sm: 0.875rem;       /* Texto pequeno / secundário */
+    --font-size-base: 1rem;         /* Corpo de texto padrão */
+    --font-size-lg: 1.25rem;        /* Destaques e subtítulos */
 }
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: var(--font-size-base);
     background-color: var(--bg-light);
     color: var(--text-main);
     line-height: 1.6;
@@ -25,45 +31,82 @@ html {
 }
 
 
-/* 2 - Cabeçalho da página*/
+/* 2 - Cabeçalho da página */
 
-/* Força a cor azul/ciano (text-info) em todos os links da barra de navegação */
 .navbar-nav .nav-link {
+    position: relative;
     color: var(--secondary-color) !important;
     font-weight: 600;
     transition: color var(--transition-speed) ease-in-out;
 }
 
-/* Efeito ao passar o rato (hover) e quando o item está ativo */
-.navbar-nav .nav-link:hover,
-.navbar-nav .nav-link.active {
-    color: #ffffff !important; /* Destaque em branco ao passar o rato */
+/* Pseudo-elemento: linha animada por baixo do link ao passar o rato (combina ::after + :hover) */
+.navbar-nav .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0.75rem;
+    right: 0.75rem;
+    bottom: 2px;
+    height: 2px;
+    background-color: #ffffff;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--transition-speed) ease-in-out;
 }
 
-/* Ajuste de alinhamento do logo */
+.navbar-nav .nav-link:hover::after,
+.navbar-nav .nav-link.active::after {
+    transform: scaleX(1);
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+    color: #ffffff !important;
+}
+
+.navbar-nav .nav-link:active {
+    color: var(--primary-color) !important;
+}
+
 .navbar-brand {
-    font-size: 1.25rem;
+    font-size: var(--font-size-lg);
     letter-spacing: 0.5px;
 }
 
-/* 3 - Estilo dos cards e personalização da foto*/
 
-/* Regra geral para todos os cards (incluindo o terminal) subirem suavemente */
+/* 3 - Estilo dos cards e personalização da foto */
+
 .card, .terminal-card {
     border-radius: var(--border-radius);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Efeito de elevação + sombra ao passar o rato (Hover) */
 .card:hover, .terminal-card:hover {
-    transform: translateY(-6px); /* Eleva o card 6px para cima */
-    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.15) !important; /* Sombra mais destacada */
+    transform: translateY(-6px);
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.15) !important;
 }
 
-/* Modo escuro: sombra adaptada ao fundo escuro */
-body.dark-theme .card:hover, 
-body.dark-theme .terminal-card:hover {
+.card:active {
+    transform: translateY(-2px) scale(0.995);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12) !important;
+}
+
+/* Modo escuro: sombra adaptada */
+[data-bs-theme="dark"] .card:hover, 
+[data-bs-theme="dark"] .terminal-card:hover {
     box-shadow: 0 10px 22px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Pseudo-elemento: marcador decorativo antes de cada título de secção */
+.card h3.border-bottom::before {
+    content: "";
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    margin-right: 8px;
+    border-radius: 2px;
+    background-color: var(--primary-color);
+    vertical-align: middle;
 }
 
 /* --- Foto de Perfil Interativa --- */
@@ -74,18 +117,19 @@ body.dark-theme .terminal-card:hover {
     transition: transform 0.35s ease, box-shadow 0.35s ease;
 }
 
-/* Efeito de Zoom e Brilho na Imagem ao passar o rato */
 .perfil-img:hover {
-    transform: scale(1.05); /* Aumenta 5% de tamanho */
-    box-shadow: 0 8px 20px rgba(11, 63, 136, 0.35); /* Glow com a cor primária */
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(11, 63, 136, 0.35);
     cursor: pointer;
 }
 
+.perfil-img:active {
+    transform: scale(0.98);
+}
 
-/* 4 - Personalização do portifolio.html */
 
+/* 4 - Personalização do portfólio.html */
 
-/* Estilização dos botões de filtro */
 .btn-filter {
     border-radius: var(--border-radius);
     font-weight: 600;
@@ -98,7 +142,10 @@ body.dark-theme .terminal-card:hover {
     border-color: var(--primary-color) !important;
 }
 
-/* Efeito de elevação nos cards dos projetos do portfólio */
+.btn-filter:active {
+    transform: scale(0.96);
+}
+
 #portfolio-container .card {
     border: 1px solid rgba(0, 0, 0, 0.08);
 }
@@ -107,65 +154,66 @@ body.dark-theme .terminal-card:hover {
     transform: translateY(-4px);
 }
 
-/* Badges de tecnologia nos projetos */
 #portfolio-container .badge {
-    font-size: 0.75rem;
+    font-size: var(--font-size-sm);
     font-weight: 600;
     padding: 0.4em 0.6em;
 }
 
-.terminal-card {
-  min-height: 150px; /* Garante uma altura mínima mesmo vazio */
-  background-color: #1e1e1e; /* Garante fundo contraste se for tema escuro */
-  display: block;
+/* Lista de competências técnicas, injetada via JS (flexbox escrito à mão, sem depender do Bootstrap) */
+.skills-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.4rem;
 }
 
 
-/* 5 - Formulário de contacto personalização */
+/* 5 - Formulário de contacto */
 
 .form-control:focus {
     border-color: var(--primary-color);
     box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
 }
 
-/* ==========================================================================
-   6. RODAPÉ
-   ========================================================================== */
+.form-control.is-invalid {
+    border-color: #dc3545;
+}
+
+.form-control.is-valid {
+    border-color: #198754;
+}
+
+.invalid-feedback {
+    display: none;
+    font-size: var(--font-size-sm);
+    color: #dc3545;
+    margin-top: 0.25rem;
+}
+
+.form-control.is-invalid ~ .invalid-feedback {
+    display: block;
+}
+
+.btn-primary:active {
+    transform: scale(0.97);
+}
+
+[data-bs-theme="dark"] .invalid-feedback {
+    color: #f1888f;
+}
+
+
+/* 6 - Rodapé */
+
 footer {
     letter-spacing: 0.3px;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* ==========================================================================
-   7. MODO ESCURO (DARK THEME)
-   ========================================================================== */
-body.dark-theme {
-    background-color: #121212 !important;
-    color: #e0e0e0 !important;
-}
 
-body.dark-theme .card {
-    background-color: #1e1e1e !important;
-    color: #e0e0e0 !important;
-    border-color: #333333 !important;
-}
+/* 7 - Botão de Tema & Suporte ao Dark Mode Nativo do Bootstrap */
 
-body.dark-theme .text-muted,
-body.dark-theme .text-secondary {
-    color: #a0a0a0 !important;
-}
-
-body.dark-theme .form-control {
-    background-color: #2b2b2b !important;
-    color: #ffffff !important;
-    border-color: #444444 !important;
-}
-
-body.dark-theme .form-control::placeholder {
-    color: #888888 !important;
-}
-
-/* Garante o estilo uniforme do botão de alterar tema nos dois ficheiros */
 .btn-theme {
     background: transparent;
     border: 1px solid #f8f9fa;
@@ -181,20 +229,56 @@ body.dark-theme .form-control::placeholder {
     color: #212529;
 }
 
-/* Container Principal do Terminal */
-.terminal-card {
-  background-color: #1e1e1e;
+.btn-theme:active {
+    transform: scale(0.95);
+}
+
+
+/* 8 - Terminal Card (Base / Modo Claro) */
+
+.terminal-hint {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 0.9rem;
+  color: #475569;
+  background-color: #eef2ff;
+  border: 1px dashed #6366f1;
   border-radius: 8px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  padding: 0.6rem 0.9rem;
+  margin: 20px 0 10px;
+}
+
+.terminal-hint code {
+  background-color: #e0e7ff;
+  color: #4338ca;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-weight: 700;
+}
+
+[data-bs-theme="dark"] .terminal-hint {
+    background-color: #1e1e2e !important;
+    border-color: #6366f1 !important;
+    color: #c7c9e0 !important;
+}
+
+[data-bs-theme="dark"] .terminal-hint code {
+    background-color: #312e81 !important;
+    color: #c7d2fe !important;
+}
+
+.terminal-card {
+  background-color: #f8fafc;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   font-family: 'Fira Code', 'Consolas', 'Courier New', monospace;
   margin: 20px 0;
-  border: 1px solid #333;
+  border: 1px solid #cbd5e1;
+  min-height: 150px;
 }
 
-/* Cabeçalho com botões redondos estilo Mac */
 .terminal-header {
-  background-color: #2d2d2d;
+  background-color: #e2e8f0;
   padding: 8px 12px;
   display: flex;
   align-items: center;
@@ -212,21 +296,22 @@ body.dark-theme .form-control::placeholder {
 .dot.green { background-color: #27c93f; }
 
 .terminal-title {
-  color: #999;
+  color: #475569;
   font-size: 0.85rem;
   margin-left: auto;
   margin-right: auto;
+  font-weight: 600;
 }
 
-/* Corpo do Terminal */
 .terminal-body {
   padding: 15px;
-  color: #d4d4d4;
+  color: #000000;
   font-size: 0.9rem;
   line-height: 1.5;
   min-height: 180px;
   max-height: 280px;
   overflow-y: auto;
+  font-weight: 600;
 }
 
 .terminal-line {
@@ -236,72 +321,116 @@ body.dark-theme .form-control::placeholder {
 
 .terminal-response {
   margin-bottom: 10px;
-  color: #cccccc;
+  color: #1e293b;
   padding-left: 10px;
-  border-left: 2px solid #007acc;
+  border-left: 2px solid #0d6efd;
 }
 
-/* Prompt e Destaques */
 .prompt {
-  color: #4ec9b0;
+  color: #1d4ed8;
   font-weight: bold;
 }
 
 .hl {
-  color: #ce9178;
-  font-weight: bold;
+  color: #047857;
+  background-color: #d1fae5;
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid #a7f3d0;
+  font-weight: 700;
 }
 
-/* Campo de Input Interativo */
 .input-line {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
+}
+
+.fake-cursor {
+  display: inline-block;
+  width: 8px;
+  height: 1.05em;
+  background-color: #1d4ed8;
+  animation: blink-cursor 1s step-start infinite;
+  margin-right: 2px;
+}
+
+@keyframes blink-cursor {
+  50% { opacity: 0; }
+}
+
+[data-bs-theme="dark"] .fake-cursor {
+    background-color: #4ec9b0;
 }
 
 #terminalInput {
   background: transparent;
   border: none;
   outline: none;
-  color: #569cd6;
+  color: #000000;
   font-family: inherit;
   font-size: inherit;
+  font-weight: 600;
   flex: 1;
 }
 
 
+/* 9 - Terminal Card (Modo Escuro com [data-bs-theme="dark"]) */
 
-/* ==========================================================================
-   8. RESPONSIVIDADE AVANÇADA (MEDIA QUERIES)
-   ========================================================================== */
+[data-bs-theme="dark"] .terminal-card {
+    background-color: #1e1e1e !important;
+    border-color: #333333 !important;
+}
 
-/* --- TABLETS E DISPOSITIVOS MÓVEIS (Ecrãs até 991.98px) --- */
+[data-bs-theme="dark"] .terminal-header {
+    background-color: #2d2d2d !important;
+}
+
+[data-bs-theme="dark"] .terminal-title {
+    color: #999999 !important;
+}
+
+[data-bs-theme="dark"] .terminal-body {
+    color: #d4d4d4 !important;
+    font-weight: normal;
+}
+
+[data-bs-theme="dark"] .terminal-response {
+    color: #cccccc !important;
+    border-left-color: #007acc !important;
+}
+
+[data-bs-theme="dark"] .prompt {
+    color: #4ec9b0 !important;
+}
+
+[data-bs-theme="dark"] .hl {
+    color: #ce9178 !important;
+    background-color: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+}
+
+[data-bs-theme="dark"] #terminalInput {
+    color: #569cd6 !important;
+    font-weight: normal;
+}
+
+
+/* 10 - Responsividade Avançada (Media Queries) */
+
 @media (max-width: 991.98px) {
-    /* Reorganização da barra de navegação no portfolio.html */
     header .container {
-        flex-direction: column !important;
-        align-items: center !important;
-        gap: 12px;
+        flex-direction: row !important;
+        justify-content: space-between !important;
     }
 
-    .navbar-nav {
-        margin-left: 0 !important;
-        justify-content: center;
-        flex-wrap: wrap;
-        text-align: center;
-        gap: 8px;
-    }
-
-    /* Redução de preenchimento dos cartões para ecrãs intermédios */
     .card {
         padding: 1.25rem !important;
     }
 }
 
-/* --- TELEMÓVEIS / ECRÃS PEQUENOS  --- */
 @media (max-width: 767.98px) {
-
-    /* 1. SECÇÃO DE PERFIL: Passa de grelha horizontal para disposição vertical empilhada */
     #perfil .row {
         display: flex;
         flex-direction: column;
@@ -319,22 +448,12 @@ body.dark-theme .form-control::placeholder {
         gap: 10px;
     }
 
-    #perfil .mb-3 .btn {
-        margin-right: 0 !important;
-    }
-
-    /* 2. SECÇÃO DE EXPERIÊNCIA E FORMAÇÃO: Bloco de datas/cabeçalhos passa de linha para coluna */
     #experiencia .d-flex.justify-content-between {
         flex-direction: column !important;
         align-items: flex-start !important;
         gap: 6px;
     }
 
-    #experiencia .badge {
-        align-self: flex-start;
-    }
-
-    /* 3. BOTÕES DE FILTRAGEM DO PORTFÓLIO: Reorganizam-se em pilha vertical cheia */
     .btn-filter {
         width: 100%;
         text-align: center;
@@ -345,7 +464,6 @@ body.dark-theme .form-control::placeholder {
         gap: 8px !important;
     }
 
-    /* 4. TERMINAL INTERATIVO: Redimensionamento e otimização para toque móvel */
     .terminal-card {
         margin: 15px 0;
     }
@@ -355,23 +473,8 @@ body.dark-theme .form-control::placeholder {
         padding: 10px;
         max-height: 220px;
     }
-
-    .input-line {
-        flex-direction: row;
-    }
-
-    #terminalInput {
-        width: 100%;
-    }
-
-    /* 5. FORMULÁRIO DE CONTACTO E BOTOES: Ajuste de botões em ecrã inteiro */
-    #contacto button[type="submit"] {
-        padding: 0.75rem;
-        font-size: 1rem;
-    }
 }
 
-/* --- TELEMÓVEIS MUITO PEQUENOS (Ecrãs até 480px) --- */
 @media (max-width: 480px) {
     body {
         font-size: 0.95rem;
@@ -381,122 +484,8 @@ body.dark-theme .form-control::placeholder {
         font-size: 1.5rem;
     }
 
-    h2.h5 {
-        font-size: 1.1rem;
-    }
-
     .container {
         padding-left: 12px;
         padding-right: 12px;
     }
-}
-/* ==========================================================================
-   TERMINAL MODO CLARO
-   ========================================================================== */
-
-/* 1. Corpo Geral do Terminal */
-.terminal-card {
-    background-color: #f8fafc !important;
-    border: 1px solid #cbd5e1 !important;
-    border-radius: 8px;
-    font-family: 'Fira Code', 'Consolas', 'Courier New', monospace !important;
-}
-
-/* 2. Barra Superior (Header) */
-.terminal-card .card-header {
-    background-color: #e2e8f0 !important;
-    color: #334155 !important;
-    border-bottom: 1px solid #cbd5e1 !important;
-    font-weight: 700;
-}
-
-/* 3. Textos do Terminal (Preto Puro + Negrito) */
-.terminal-card .terminal-line,
-.terminal-card .terminal-response,
-.terminal-card div {
-    color: #000000 !important; /* Preto absoluto */
-    font-weight: 700 !important; /* Totalmente em negrito */
-    font-size: 0.95rem;          /* Ligeiramente maior para melhor leitura */
-}
-
-/* 4. Limpeza da resposta */
-.terminal-card .terminal-response {
-    border-left: none !important;
-    padding-left: 0 !important;
-    margin-top: 6px;
-    margin-bottom: 10px;
-}
-
-/* 5. SUPER DESTAQUE para os Comandos (help, sobre, skills, status, etc.) */
-.terminal-card .hl {
-    color: #047857 !important;            /* Verde forte */
-    background-color: #d1fae5 !important;  /* Fundo verde-claro estilo badge */
-    padding: 2px 6px;
-    border-radius: 4px;
-    border: 1px solid #a7f3d0;
-    font-weight: 800 !important;
-    font-size: 0.95rem;
-}
-
-/* 6. Destaque do Prompt (guest@portfolio:~$) */
-.terminal-card .prompt {
-    color: #1d4ed8 !important; /* Azul forte */
-    font-weight: 800 !important;
-}
-
-/* 7. Input ao digitar */
-.terminal-card input {
-    color: #000000 !important;
-    font-weight: 700 !important;
-    font-size: 0.95rem;
-    background: transparent;
-    border: none;
-    outline: none;
-}
-
-/* 8. Barra de Rolagem Discreta */
-.terminal-card #terminalBody::-webkit-scrollbar {
-    width: 6px;
-}
-.terminal-card #terminalBody::-webkit-scrollbar-track {
-    background: #f1f5f9;
-}
-.terminal-card #terminalBody::-webkit-scrollbar-thumb {
-    background: #cbd5e1;
-    border-radius: 4px;
-}
-
-/* --- MODO ESCURO (DARK MODE) --- */
-
-/* 1. Barra de Título no Modo Escuro */
-[data-bs-theme="dark"] .terminal-card .card-header {
-    background-color: #2b2d30 !important;
-    color: #a9b7c6 !important;
-    border-bottom-color: #323232;
-}
-
-/* 2. Corpo do Terminal no Modo Escuro */
-[data-bs-theme="dark"] .terminal-card {
-    background-color: #1e1e1e !important;
-    color: #d4d4d4 !important;
-    border-color: #383838;
-}
-
-/* 3. Textos no Modo Escuro */
-[data-bs-theme="dark"] .terminal-card .terminal-line,
-[data-bs-theme="dark"] .terminal-card .terminal-response {
-    color: #d4d4d4 !important;
-}
-
-/* 4. Cores de Destaque no Modo Escuro */
-[data-bs-theme="dark"] .terminal-card .prompt {
-    color: #3b82f6 !important;
-}
-
-[data-bs-theme="dark"] .terminal-card .hl {
-    color: #20c997 !important;
-}
-
-[data-bs-theme="dark"] .terminal-card input {
-    color: #f8f9fa !important;
 }

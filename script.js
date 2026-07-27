@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     
     /* ==========================================================================
-       1. BASE DE DADOS DINÂMICA COM CAMINHOS LOCAIS (Relative Paths)
+       1. BASE DE DADOS DINÂMICA COM CAMINHOS LOCAIS 
        ========================================================================== */
     const meusProjetos = [
         {
@@ -34,6 +34,32 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     ];
 
+    // Array de objetos: competências técnicas (deixaram de estar escritas diretamente no HTML)
+    const competencias = [
+        { nome: "Python", grupo: "linguagens" },
+        { nome: "Java", grupo: "linguagens" },
+        { nome: "C", grupo: "linguagens" },
+        { nome: "JavaScript", grupo: "linguagens" },
+        { nome: "HTML5", grupo: "linguagens" },
+        { nome: "CSS3", grupo: "linguagens" }
+    ];
+
+    /* ==========================================================================
+       1b. RENDERIZAÇÃO DINÂMICA DAS COMPETÊNCIAS TÉCNICAS
+       ========================================================================== */
+    const skillsContainer = document.getElementById("skills-linguagens");
+
+    if (skillsContainer) {
+        competencias
+            .filter(c => c.grupo === "linguagens")
+            .forEach(c => {
+                const badge = document.createElement("span");
+                badge.className = "badge bg-primary";
+                badge.textContent = c.nome;
+                skillsContainer.appendChild(badge);
+            });
+    }
+
     const container = document.getElementById("portfolio-container");
 
     /* ==========================================================================
@@ -59,7 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
 
                 col.innerHTML = `
-                    <div class="card h-100 border shadow-sm">
+                    <article class="card h-100 border shadow-sm">
                         <div class="card-body d-flex flex-column justify-content-between">
                             <div>
                                 <h5 class="card-title text-primary fw-bold mb-2">${projeto.titulo}</h5>
@@ -74,7 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 </a>
                             </div>
                         </div>
-                    </div>
+                    </article>
                 `;
 
                 container.appendChild(col);
@@ -123,7 +149,7 @@ document.addEventListener("DOMContentLoaded", () => {
    4. MODO ESCURO NATIVO DO BOOTSTRAP 5.3+
    ========================================================================== */
 document.addEventListener("DOMContentLoaded", () => {
-    const themeToggleBtn = document.getElementById("themeToggle") || document.getElementById("theme-toggle");
+    const themeToggleBtn = document.getElementById("themeToggle");
     
     const savedTheme = localStorage.getItem("theme");
     const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -146,7 +172,99 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /* ==========================================================================
-   5. TERMINAL INTERATIVO (SEM SALTO DE ECRÃ)
+   5. FORMULÁRIO DE CONTACTO — VALIDAÇÃO E SUBMISSÃO EM JAVASCRIPT
+   ========================================================================== */
+document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("contact-form");
+    if (!form) return;
+
+    const campos = {
+        name: { input: document.getElementById("name"), erro: document.getElementById("name-error") },
+        email: { input: document.getElementById("email"), erro: document.getElementById("email-error") },
+        message: { input: document.getElementById("message"), erro: document.getElementById("message-error") }
+    };
+
+    const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    // Estrutura de decisão: cada campo tem a sua própria regra de validação
+    function validarCampo(chave) {
+        const valor = campos[chave].input.value.trim();
+        let mensagem = "";
+
+        if (chave === "name") {
+            if (valor.length < 3) mensagem = "Indica o teu nome completo (mín. 3 caracteres).";
+        } else if (chave === "email") {
+            if (!regexEmail.test(valor)) mensagem = "Escreve um e-mail válido (ex: nome@empresa.com).";
+        } else if (chave === "message") {
+            if (valor.length < 10) mensagem = "A mensagem deve ter pelo menos 10 caracteres.";
+        }
+
+        const valido = mensagem === "";
+        campos[chave].input.classList.toggle("is-invalid", !valido);
+        campos[chave].input.classList.toggle("is-valid", valido && valor !== "");
+        campos[chave].erro.textContent = mensagem;
+
+        return valido;
+    }
+
+    // Valida em tempo real enquanto a pessoa escreve
+    Object.keys(campos).forEach(chave => {
+        campos[chave].input.addEventListener("input", () => validarCampo(chave));
+    });
+
+    function mostrarToast(elId, msgId, texto, corClasse) {
+        const toastEl = document.getElementById(elId);
+        const toastMsg = document.getElementById(msgId);
+        if (!toastEl || !toastMsg || typeof bootstrap === "undefined") return;
+
+        toastEl.classList.remove("text-bg-success", "text-bg-danger");
+        toastEl.classList.add(corClasse);
+        toastMsg.textContent = texto;
+        new bootstrap.Toast(toastEl).show();
+    }
+
+    form.addEventListener("submit", async (evento) => {
+        evento.preventDefault();
+
+        // Só avança se TODOS os campos passarem na validação (estrutura de decisão)
+        const todosValidos = Object.keys(campos).every(chave => validarCampo(chave));
+        if (!todosValidos) {
+            mostrarToast("contactToast", "contactToastMessage", "Corrige os campos assinalados antes de enviar.", "text-bg-danger");
+            return;
+        }
+
+        const submitBtn = document.getElementById("contact-submit");
+        const textoOriginal = submitBtn.textContent;
+        submitBtn.disabled = true;
+        submitBtn.textContent = "A enviar...";
+
+        try {
+            const resposta = await fetch(form.action, {
+                method: "POST",
+                body: new FormData(form),
+                headers: { "Accept": "application/json" }
+            });
+
+            if (resposta.ok) {
+                mostrarToast("contactToast", "contactToastMessage", "✓ Mensagem enviada com sucesso. Obrigado pelo contacto!", "text-bg-success");
+                form.reset();
+                Object.keys(campos).forEach(chave => {
+                    campos[chave].input.classList.remove("is-valid", "is-invalid");
+                });
+            } else {
+                throw new Error("Falha no envio");
+            }
+        } catch (erro) {
+            mostrarToast("contactToast", "contactToastMessage", "✕ Não foi possível enviar agora. Tenta novamente.", "text-bg-danger");
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = textoOriginal;
+        }
+    });
+});
+
+/* ==========================================================================
+   6. TERMINAL INTERATIVO (SEM SALTO DE ECRÃ)
    ========================================================================== */
 document.addEventListener("DOMContentLoaded", () => {
   const terminalBody = document.getElementById("terminalBody");
@@ -197,18 +315,27 @@ document.addEventListener("DOMContentLoaded", () => {
     const inputLine = document.createElement("div");
     inputLine.className = "terminal-line input-line";
     
-    // Removido o atributo autofocus no HTML string
     inputLine.innerHTML = `
       <span class="prompt">guest@portfolio:~$</span>
+      <span class="fake-cursor" id="fakeCursor"></span>
       <input type="text" id="terminalInput" spellcheck="false" autocomplete="off" />
     `;
     terminalBody.appendChild(inputLine);
 
     const input = document.getElementById("terminalInput");
+    const fakeCursor = document.getElementById("fakeCursor");
     
-    // Aplica o foco impedindo o scroll da página principal
     if (input) {
       input.focus({ preventScroll: true });
+
+      // Esconde o cursor falso quando o campo real está focado (evita dois cursores em simultâneo)
+      // e volta a mostrá-lo quando perde o foco, para continuar a indicar "escreve aqui".
+      input.addEventListener("focus", () => {
+        if (fakeCursor) fakeCursor.style.visibility = "hidden";
+      });
+      input.addEventListener("blur", () => {
+        if (fakeCursor) fakeCursor.style.visibility = "visible";
+      });
 
       input.addEventListener("keydown", (e) => {
         if (e.key === "Enter") {
@@ -237,7 +364,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Foca no input apenas quando o utilizador clica na área do terminal
   terminalBody.addEventListener("click", () => {
     const input = document.getElementById("terminalInput");
     if (input) {
