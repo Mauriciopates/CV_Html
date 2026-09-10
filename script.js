@@ -17,13 +17,26 @@ document.addEventListener("DOMContentLoaded", () => {
         {
             titulo: "Pipeline de Dados SIAPE",
             categoria: "Python",
-            descricao: "Pipeline em Python para descarregar, tratar e importar dados públicos de remuneração de funcionários federais (Portal da Transparência) para MySQL remoto, com inserções em lote e prevenção de duplicados.",
+            imagem: "img/Database_automation_SIAPEpng.png",
+            imagemAlt: "Painel de Controlo SIAPE — interface gráfica com ligação MySQL, download e importação de dados do Portal da Transparência",
+            descricao: "Pipeline em Python para descarregar, tratar e importar dados públicos de remuneração de funcionários federais (Portal da Transparência) para MySQL remoto, com inserções em lote e prevenção de duplicados. Inclui painel gráfico (Tkinter) para gerir a ligação MySQL e correr cada etapa do processo.",
             tecnologias: ["Python", "MySQL", "ETL"],
-            link: "#" // TODO: colar aqui o link do repositório GitHub deste projeto
+            link: "https://github.com/Mauriciopates/Database_automation_SIAPE"
+        },
+        {
+            titulo: "Automação CPGF/GPGF — Portal da Transparência",
+            categoria: "Python",
+            imagem: "img/Database_automation_GPGF.png",
+            imagemAlt: "Menu de manutenção CPGF no terminal e registo da importação de um CSV para MySQL",
+            descricao: "Script Python de linha de comandos para automatizar a manutenção da tabela CPGF por ano: exportação de CSV do Portal da Transparência, correção e renomeação de ficheiros, diagnóstico e importação em lote para MySQL, com barra de progresso e contagem total de registos importados.",
+            tecnologias: ["Python", "MySQL", "CLI"],
+            link: "https://github.com/Mauriciopates/Database_automation_GPGF"
         },
         {
             titulo: "Relatorios.py — Sistema de Relatórios",
             categoria: "Python",
+            imagem: "img/Projeto_segurança_relatorios.png",
+            imagemAlt: "Aplicação desktop de relatórios de segurança",
             descricao: "Aplicação desktop (Tkinter) de relatórios de segurança, desenvolvida em equipa: interface com Treeview, gráficos incorporados com matplotlib e build em executável com PyInstaller.",
             tecnologias: ["Python", "Tkinter", "Matplotlib"],
             link: "https://github.com/Mauriciopates/Projeto_seguranca"
@@ -142,13 +155,22 @@ document.addEventListener("DOMContentLoaded", () => {
                     return;
                 }
 
-                const imagemHTML = projeto.imagem
-                    ? `<img src="${projeto.imagem}" alt="${projeto.imagemAlt || projeto.titulo}" class="card-img-top project-thumb" loading="lazy">`
-                    : "";
+                // Suporta um único "imagem" ou uma galeria "imagens" (várias capturas por projeto)
+                let mediaHTML = "";
+                if (Array.isArray(projeto.imagens) && projeto.imagens.length > 0) {
+                    const totalImgs = projeto.imagens.length;
+                    const miniaturas = projeto.imagens.map((src, i) => `
+                        <div class="col-6">
+                            <img src="${src}" alt="${(projeto.imagemAlt || projeto.titulo)} (${i + 1}/${totalImgs})" class="project-thumb-mini js-zoomable" data-titulo="${projeto.titulo} (${i + 1}/${totalImgs})" loading="lazy">
+                        </div>`).join("");
+                    mediaHTML = `<div class="row g-1 p-1">${miniaturas}</div>`;
+                } else if (projeto.imagem) {
+                    mediaHTML = `<img src="${projeto.imagem}" alt="${projeto.imagemAlt || projeto.titulo}" class="card-img-top project-thumb js-zoomable" data-titulo="${projeto.titulo}" loading="lazy">`;
+                }
 
                 col.innerHTML = `
                     <article class="card h-100 border shadow-sm">
-                        ${imagemHTML}
+                        ${mediaHTML}
                         <div class="card-body d-flex flex-column justify-content-between">
                             <div>
                                 ${destaqueHTML}

@@ -148,10 +148,65 @@ html {
 
 #portfolio-container .card {
     border: 1px solid rgba(0, 0, 0, 0.08);
+    position: relative;
+    z-index: 1;
+    transition: z-index 0s 0.4s; /* só volta para trás depois de a imagem encolher */
 }
 
 #portfolio-container .card:hover {
-    transform: translateY(-4px);
+    z-index: 30;
+    transition: z-index 0s;
+}
+
+/* A imagem em si é que "salta" e amplia ao passar o rato — o resto do card fica no lugar */
+#portfolio-container .card:not(.border-warning) .project-thumb,
+#portfolio-container .card:not(.border-warning) .project-thumb-mini {
+    transform-origin: top center;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease;
+}
+
+#portfolio-container .card:not(.border-warning):hover .project-thumb,
+#portfolio-container .card:not(.border-warning):hover .project-thumb-mini {
+    transform: scale(1.55);
+    /* ao ampliar, mostra a imagem completa (sem cortar topo/fundo) em vez do recorte do "cover" */
+    object-fit: contain;
+    background-color: #ffffff;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+}
+
+/* Cartão em destaque: a imagem também "salta", mas ancorada à esquerda — cresce para o lado
+   (por cima do texto) em vez de para cima, porque o cartão já ocupa a largura toda do ecrã */
+#portfolio-container .border-warning:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.22) !important;
+}
+
+#portfolio-container .border-warning .project-thumb-wrap {
+    position: relative;
+    z-index: 1;
+    transition: z-index 0s 0.4s;
+}
+
+#portfolio-container .border-warning:hover .project-thumb-wrap {
+    z-index: 10;
+    overflow: visible;
+    transition: z-index 0s;
+}
+
+#portfolio-container .border-warning .project-thumb-wrap .project-thumb {
+    transform-origin: left center;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease;
+}
+
+#portfolio-container .border-warning:hover .project-thumb-wrap .project-thumb {
+    transform: scale(1.45);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+}
+
+[data-bs-theme="dark"] #portfolio-container .card:not(.border-warning):hover .project-thumb,
+[data-bs-theme="dark"] #portfolio-container .card:not(.border-warning):hover .project-thumb-mini,
+[data-bs-theme="dark"] #portfolio-container .border-warning:hover .project-thumb-wrap .project-thumb {
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.75);
 }
 
 #portfolio-container .badge {
@@ -166,6 +221,8 @@ html {
     height: 100%;
     object-fit: cover;
     background-color: #ffffff;
+    position: relative;
+    display: block;
 }
 
 /* Cartão em destaque: imagem lado-a-lado, com fundo branco fixo (o diagrama é feito para fundo claro) */
@@ -183,6 +240,22 @@ html {
     object-fit: contain;
     max-height: 320px;
     cursor: zoom-in;
+}
+
+/* Miniaturas ampliáveis (imagem única ou galeria) */
+.js-zoomable {
+    cursor: zoom-in;
+}
+
+/* Galeria de 2 capturas dentro de um card normal (ex: projetos com mais do que uma imagem) */
+.project-thumb-mini {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 4px;
+    background-color: #ffffff;
+    position: relative;
+    display: block;
 }
 
 /* Lista de competências técnicas, injetada via JS (flexbox escrito à mão, sem depender do Bootstrap) */
