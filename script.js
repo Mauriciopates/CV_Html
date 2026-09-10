@@ -5,6 +5,30 @@ document.addEventListener("DOMContentLoaded", () => {
        ========================================================================== */
     const meusProjetos = [
         {
+            titulo: "Sistema de Gestão de Hostel",
+            categoria: "Python",
+            destaque: true,
+            imagem: "img/hostel-diagrama-er.png",
+            imagemAlt: "Diagrama entidade-relação com 17 tabelas do sistema de gestão de hostel",
+            descricao: "Sistema de gestão administrativa para 22 unidades de alojamento no Porto (regime mensal e Airbnb), em Python com persistência em MySQL. Lógica de negócio desacoplada da interface (CLI hoje, GUI prevista), com quase 400 testes automatizados.",
+            tecnologias: ["Python", "MySQL", "unittest"],
+            link: "https://github.com/Mauriciopates/hostel_gestao"
+        },
+        {
+            titulo: "Pipeline de Dados SIAPE",
+            categoria: "Python",
+            descricao: "Pipeline em Python para descarregar, tratar e importar dados públicos de remuneração de funcionários federais (Portal da Transparência) para MySQL remoto, com inserções em lote e prevenção de duplicados.",
+            tecnologias: ["Python", "MySQL", "ETL"],
+            link: "#" // TODO: colar aqui o link do repositório GitHub deste projeto
+        },
+        {
+            titulo: "Relatorios.py — Sistema de Relatórios",
+            categoria: "Python",
+            descricao: "Aplicação desktop (Tkinter) de relatórios de segurança, desenvolvida em equipa: interface com Treeview, gráficos incorporados com matplotlib e build em executável com PyInstaller.",
+            tecnologias: ["Python", "Tkinter", "Matplotlib"],
+            link: "https://github.com/Mauriciopates/Projeto_seguranca"
+        },
+        {
             titulo: "Curiosidades Ocultas",
             categoria: "Web",
             descricao: "Aplicação interativa desenvolvida com HTML, CSS e JavaScript.",
@@ -19,18 +43,11 @@ document.addEventListener("DOMContentLoaded", () => {
             link: "./Projetos_html/Jogo_adivinha/adivinha.html"
         },
         {
-            titulo: "Script de Automação de Backups",
-            categoria: "Python",
-            descricao: "Script utilitário em Python para duplicação e gestão de ficheiros.",
-            tecnologias: ["Python", "OS Module"],
-            link: "#"
-        },
-        {
             titulo: "Simulador de Circuitos Arduino",
             categoria: "Java",
             descricao: "Aplicação desktop focada em mapear os pinos lógicos de uma placa Arduino.",
             tecnologias: ["Java", "Swing"],
-            link: "#"
+            link: "#" // TODO: colar aqui o link do repositório GitHub deste projeto
         }
     ];
 
@@ -77,17 +94,64 @@ document.addEventListener("DOMContentLoaded", () => {
 
             listaProjetos.forEach(projeto => {
                 const col = document.createElement("div");
-                col.classList.add("col-md-6", "col-lg-4");
+                // O cartão em destaque ocupa a largura toda para a imagem ficar legível
+                if (projeto.destaque) {
+                    col.classList.add("col-12");
+                } else {
+                    col.classList.add("col-md-6", "col-lg-4");
+                }
 
                 let tagsHTML = "";
                 projeto.tecnologias.forEach(tech => {
                     tagsHTML += `<span class="badge bg-info text-dark me-1">${tech}</span>`;
                 });
 
+                // Sem link público ainda: mostra um selo neutro em vez de um botão que leva a lado nenhum
+                const temLink = projeto.link && projeto.link !== "#";
+                const botaoHTML = temLink
+                    ? `<a href="${projeto.link}" target="_blank" class="btn btn-sm btn-outline-primary w-100 fw-bold">Ver Projeto &rarr;</a>`
+                    : `<span class="btn btn-sm btn-outline-secondary disabled w-100 fw-bold">Repositório privado</span>`;
+
+                const destaqueHTML = projeto.destaque
+                    ? `<span class="badge bg-warning text-dark mb-2">⭐ Projeto em Destaque</span><br>`
+                    : "";
+
+                if (projeto.destaque && projeto.imagem) {
+                    // Layout lado-a-lado: imagem à esquerda, texto à direita (empilha em telas pequenas)
+                    col.innerHTML = `
+                        <article class="card h-100 border border-warning shadow-sm">
+                            <div class="row g-0 align-items-stretch">
+                                <div class="col-md-6 project-thumb-wrap">
+                                    <img src="${projeto.imagem}" alt="${projeto.imagemAlt || projeto.titulo}" class="project-thumb js-zoomable" data-titulo="${projeto.titulo}" loading="lazy">
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card-body d-flex flex-column justify-content-between h-100">
+                                        <div>
+                                            ${destaqueHTML}
+                                            <h5 class="card-title text-primary fw-bold mb-2">${projeto.titulo}</h5>
+                                            <p class="card-text text-secondary small mb-3">${projeto.descricao}</p>
+                                            <div class="mb-3">${tagsHTML}</div>
+                                        </div>
+                                        <div>${botaoHTML}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    `;
+                    container.appendChild(col);
+                    return;
+                }
+
+                const imagemHTML = projeto.imagem
+                    ? `<img src="${projeto.imagem}" alt="${projeto.imagemAlt || projeto.titulo}" class="card-img-top project-thumb" loading="lazy">`
+                    : "";
+
                 col.innerHTML = `
                     <article class="card h-100 border shadow-sm">
+                        ${imagemHTML}
                         <div class="card-body d-flex flex-column justify-content-between">
                             <div>
+                                ${destaqueHTML}
                                 <h5 class="card-title text-primary fw-bold mb-2">${projeto.titulo}</h5>
                                 <p class="card-text text-secondary small mb-3">${projeto.descricao}</p>
                                 <div class="mb-3">
@@ -95,9 +159,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 </div>
                             </div>
                             <div>
-                                <a href="${projeto.link}" target="_blank" class="btn btn-sm btn-outline-primary w-100 fw-bold">
-                                    Ver Projeto &rarr;
-                                </a>
+                                ${botaoHTML}
                             </div>
                         </div>
                     </article>
@@ -110,10 +172,31 @@ document.addEventListener("DOMContentLoaded", () => {
         // Renderiza tudo ao carregar
         renderizarProjetos(meusProjetos);
 
+        // Clique numa imagem "ampliável" abre-a em grande dentro do modal Bootstrap
+        container.addEventListener("click", (evento) => {
+            const img = evento.target.closest(".js-zoomable");
+            if (!img) return;
+            const modalImg = document.getElementById("imageModalImg");
+            const modalLabel = document.getElementById("imageModalLabel");
+            if (!modalImg || typeof bootstrap === "undefined") return;
+            modalImg.src = img.src;
+            modalImg.alt = img.alt;
+            if (modalLabel) modalLabel.textContent = img.dataset.titulo || img.alt;
+            new bootstrap.Modal(document.getElementById("imageModal")).show();
+        });
+
         /* ==========================================================================
            3. FILTROS DE CATEGORIA E FEEDBACK (TOAST)
            ========================================================================== */
         const botoesFiltro = document.querySelectorAll(".btn-filter");
+
+        // Deep-link: se a página abrir com ?filter=Python, aplica esse filtro automaticamente
+        const filtroNaURL = new URLSearchParams(window.location.search).get("filter");
+        if (filtroNaURL) {
+            const botaoCorrespondente = Array.from(botoesFiltro)
+                .find(b => b.dataset.filter && b.dataset.filter.toLowerCase() === filtroNaURL.toLowerCase());
+            if (botaoCorrespondente) botaoCorrespondente.click();
+        }
 
         botoesFiltro.forEach(botao => {
             botao.addEventListener("click", (evento) => {

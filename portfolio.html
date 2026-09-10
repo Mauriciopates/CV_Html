@@ -4,7 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfólio Técnico | Maurício Souza Pates</title>
-    
+
+    <meta name="description" content="Projetos de Maurício Souza Pates em Python, bases de dados MySQL e desenvolvimento web — incluindo um sistema de gestão de alojamento e um pipeline de dados.">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Portfólio Técnico | Maurício Souza Pates">
+    <meta property="og:description" content="Projetos em Python, MySQL e desenvolvimento web, produzidos no curso TPSI (IEFP Porto) e em iniciativa própria.">
+    <meta property="og:image" content="https://mauriciopates.github.io/CV_Html/img/Perfil.png">
+
     <link rel="stylesheet" href="bootstrap-5.3.8-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="img/ico.png" type="image/x-icon">
@@ -68,6 +74,21 @@
             </div>
         </section>
     </main>
+
+    <!-- Modal para ampliar a imagem do projeto em destaque -->
+    <div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content bg-white">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark" id="imageModalLabel">Diagrama</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img id="imageModalImg" src="" alt="" class="img-fluid">
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Rodapé -->
     <footer class="bg-dark text-light text-center py-4 mt-auto">

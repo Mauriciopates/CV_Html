@@ -160,6 +160,31 @@ html {
     padding: 0.4em 0.6em;
 }
 
+/* Miniaturas de projeto (cartão normal: imagem no topo) */
+.project-thumb {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background-color: #ffffff;
+}
+
+/* Cartão em destaque: imagem lado-a-lado, com fundo branco fixo (o diagrama é feito para fundo claro) */
+.project-thumb-wrap {
+    min-height: 220px;
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 0.5rem;
+}
+
+.project-thumb-wrap .project-thumb {
+    object-fit: contain;
+    max-height: 320px;
+    cursor: zoom-in;
+}
+
 /* Lista de competências técnicas, injetada via JS (flexbox escrito à mão, sem depender do Bootstrap) */
 .skills-list {
     display: flex;
