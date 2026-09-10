@@ -165,8 +165,10 @@ html {
     transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease;
 }
 
-#portfolio-container .card:not(.border-warning):hover .project-thumb,
-#portfolio-container .card:not(.border-warning):hover .project-thumb-mini {
+/* Só amplia quando o rato está mesmo em cima da imagem (não no resto do card,
+   para não tapar o botão "Ver Projeto" quando só se passa por cima do texto) */
+#portfolio-container .card:not(.border-warning) .project-thumb:hover,
+#portfolio-container .card:not(.border-warning) .project-thumb-mini:hover {
     transform: scale(1.55);
     /* ao ampliar, mostra a imagem completa (sem cortar topo/fundo) em vez do recorte do "cover" */
     object-fit: contain;
@@ -183,14 +185,8 @@ html {
 
 #portfolio-container .border-warning .project-thumb-wrap {
     position: relative;
-    z-index: 1;
-    transition: z-index 0s 0.4s;
-}
-
-#portfolio-container .border-warning:hover .project-thumb-wrap {
-    z-index: 10;
-    overflow: visible;
-    transition: z-index 0s;
+    z-index: 5;
+    overflow: visible; /* deixa a imagem "sair" da caixa quando amplia, sem ser cortada */
 }
 
 #portfolio-container .border-warning .project-thumb-wrap .project-thumb {
@@ -198,14 +194,15 @@ html {
     transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease;
 }
 
-#portfolio-container .border-warning:hover .project-thumb-wrap .project-thumb {
+/* Só amplia quando o rato está mesmo em cima da imagem do destaque */
+#portfolio-container .border-warning .project-thumb-wrap .project-thumb:hover {
     transform: scale(1.45);
     box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
 }
 
-[data-bs-theme="dark"] #portfolio-container .card:not(.border-warning):hover .project-thumb,
-[data-bs-theme="dark"] #portfolio-container .card:not(.border-warning):hover .project-thumb-mini,
-[data-bs-theme="dark"] #portfolio-container .border-warning:hover .project-thumb-wrap .project-thumb {
+[data-bs-theme="dark"] #portfolio-container .card:not(.border-warning) .project-thumb:hover,
+[data-bs-theme="dark"] #portfolio-container .card:not(.border-warning) .project-thumb-mini:hover,
+[data-bs-theme="dark"] #portfolio-container .border-warning .project-thumb-wrap .project-thumb:hover {
     box-shadow: 0 25px 50px rgba(0, 0, 0, 0.75);
 }
 
