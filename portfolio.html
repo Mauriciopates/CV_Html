@@ -4,78 +4,71 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfólio Técnico | Maurício Souza Pates</title>
-
-    <meta name="description" content="Projetos de Maurício Souza Pates em Python, bases de dados MySQL e desenvolvimento web — incluindo um sistema de gestão de alojamento e um pipeline de dados.">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Portfólio Técnico | Maurício Souza Pates">
-    <meta property="og:description" content="Projetos em Python, MySQL e desenvolvimento web, produzidos no curso TPSI (IEFP Porto) e em iniciativa própria.">
-    <meta property="og:image" content="https://mauriciopates.github.io/CV_Html/img/Perfil.png">
-
+    <meta name="description" content="Projetos de Maurício Souza Pates em Python, bases de dados MySQL e desenvolvimento web.">
     <link rel="stylesheet" href="bootstrap-5.3.8-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="img/ico.png" type="image/x-icon">
+    <link rel="icon" href="img/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png">
+    <script>
+      (function () {
+        try {
+          var saved = localStorage.getItem('theme');
+          document.documentElement.setAttribute('data-theme', saved || 'dark');
+          var lang = localStorage.getItem('lang') || 'pt';
+          document.documentElement.setAttribute('lang', lang === 'pt' ? 'pt-PT' : 'en');
+        } catch (e) { document.documentElement.setAttribute('data-theme', 'dark'); }
+      })();
+    </script>
 </head>
 
-<!-- Toast de Feedback -->
-<div class="toast-container position-fixed bottom-0 end-0 p-3">
-  <div id="filterToast" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
-    <div class="d-flex">
-      <div class="toast-body" id="toastMessage">
-        Filtro aplicado com sucesso!
-      </div>
-      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-    </div>
-  </div>
-</div>
+<body>
 
-<body class="bg-light text-dark">
-
-    <!-- Cabeçalho / Navegação Responsiva -->
-    <header class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-sm">
-        <div class="container">
-
-            <button id="themeToggle" class="btn-theme">🌙 Modo Escuro</button>
-            
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Alternar navegação">
-                <span class="navbar-toggler-icon"></span>
+    <nav class="nav">
+        <a href="index.html" class="nav-logo">
+            <span class="logo-mark">mp</span>
+            <span class="logo-text">maurício pates</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html" data-i18n="nav.profile">Perfil</a></li>
+            <li><a href="portfolio.html" class="active" data-i18n="nav.portfolio">Portfólio</a></li>
+            <li><a href="terminal.html" data-i18n="nav.terminal">Terminal</a></li>
+            <li><a href="contacto.html" data-i18n="nav.contact">Contacto</a></li>
+        </ul>
+        <div class="nav-actions">
+            <div class="lang-switch" role="group" aria-label="Idioma">
+                <button class="lang active" data-lang="pt">PT</button>
+                <button class="lang" data-lang="en">EN</button>
+            </div>
+            <button id="themeToggle" class="theme-toggle" data-i18n-aria="nav.theme.aria" aria-label="Alternar tema">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="4"/>
+                    <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+                </svg>
+                <span id="themeLabel" data-i18n="nav.theme.dark">Escuro</span>
             </button>
-
-            <nav class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-menu navbar-nav ms-auto gap-2">
-                    <li class="nav-item"><a class="nav-link" href="index.html#perfil">Perfil</a></li>
-                    <li class="nav-item"><a class="nav-link" href="index.html#competencias">Competências</a></li>
-                    <li class="nav-item"><a class="nav-link" href="index.html#experiencia">Experiência</a></li>
-                    <li class="nav-item"><a class="nav-link active text-info fw-bold" href="portfolio.html">Portfólio</a></li>     
-                    <li class="nav-item"><a class="nav-link" href="index.html#contacto">Contacto</a></li>
-                </ul>
-            </nav>  
         </div>
-    </header>
+    </nav>
 
     <main class="container my-5">
-        <!-- Secção Portfólio Dinâmico -->
         <section id="portfolio" class="mb-5">
             <div class="card shadow-sm border-0 p-4">
-                <h1 class="h3 text-primary border-bottom pb-2 mb-3">Meu Portfólio Técnico</h1>
-                <p class="text-muted mb-3">Filtre os projetos pelas tecnologias utilizadas abaixo:</p>
-                
-                <!-- Botões de Filtragem -->
+                <h1 class="h3 text-primary border-bottom pb-2 mb-3" data-i18n="portfolio.title">Meu Portfólio Técnico</h1>
+                <p class="text-muted mb-3" data-i18n="portfolio.filter.hint">Filtre os projetos pelas tecnologias utilizadas abaixo:</p>
+
                 <div class="d-flex gap-2 mb-4 flex-wrap">
-                    <button class="btn btn-outline-primary btn-filter active" data-filter="all">Todos</button>
+                    <button class="btn btn-outline-primary btn-filter active" data-filter="all" data-i18n="portfolio.filter.all">Todos</button>
                     <button class="btn btn-outline-primary btn-filter" data-filter="Python">Python</button>
-                    <button class="btn btn-outline-primary btn-filter" data-filter="Web">Web (HTML/CSS/JS)</button>
+                    <button class="btn btn-outline-primary btn-filter" data-filter="Web" data-i18n="portfolio.filter.web">Web (HTML/CSS/JS)</button>
                     <button class="btn btn-outline-primary btn-filter" data-filter="Java">Java</button>
                 </div>
 
-                <!-- Container Flex/Grid do Bootstrap para Injeção pelo JS -->
-                <div id="portfolio-container" class="row g-3">
-                    <!-- Ficheiros injetados via script.js -->
-                </div>
+                <div id="portfolio-container" class="row g-3"></div>
             </div>
         </section>
     </main>
 
-    <!-- Modal para ampliar a imagem do projeto em destaque -->
     <div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog-centered">
             <div class="modal-content bg-white">
@@ -90,14 +83,13 @@
         </div>
     </div>
 
-    <!-- Rodapé -->
-    <footer class="bg-dark text-light text-center py-4 mt-auto">
-        <div class="container">
-            <p class="mb-0 small">&copy; 2026 Maurício Souza Pates. Todos os direitos reservados.</p>
+    <footer class="footer">
+        <div class="footer-inner">
+            <span>© 2026 Maurício Souza Pates</span>
+            <span class="footer-mono" data-i18n="footer.made">feito com HTML, CSS e JS puro</span>
         </div>
     </footer>
 
-    <!-- Scripts -->
     <script src="bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
     <script src="script.js"></script>
 </body>
