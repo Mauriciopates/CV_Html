@@ -1,0 +1,237 @@
+{
+  "skills": [
+    { "name": "Python",      "level": 78 },
+    { "name": "JavaScript",  "level": 62 },
+    { "name": "HTML5",       "level": 80 },
+    { "name": "CSS3",        "level": 78 },
+    { "name": "MySQL",       "level": 82 },
+    { "name": "PostgreSQL",  "level": 55 },
+    { "name": "SQL Server",  "level": 62 },
+    { "name": "SQLite",      "level": 70 },
+    { "name": "MongoDB",     "level": 48 },
+    { "name": "Git",         "level": 76 },
+    { "name": "Linux",       "level": 65 },
+    { "name": "Proxmox",     "level": 58 },
+    { "name": "Java",        "level": 45 },
+    { "name": "VS Code",     "level": 82 }
+  ],
+
+  "chart": [
+    { "label": "Python / Dados",  "count": 3, "color": "var(--viz-blue-1)" },
+    { "label": "Web (Frontend)",  "count": 2, "color": "var(--viz-blue-2)" },
+    { "label": "ETL / Automação", "count": 2, "color": "var(--viz-blue-3)" }
+  ],
+
+  "projects": [
+    {
+      "id": "hostel",
+      "name": "Sistema Unificado de Gestão de Hostel",
+      "tags": "Python · MySQL · SQLite · CustomTkinter",
+      "year": "2026",
+      "category": "Python / Dados",
+      "image": "img/proj-hostel.png",
+      "desc": "Sistema híbrido para gestão de 22 unidades de alojamento em regime misto — arrendamento mensal partilhado e estadias curtas (Airbnb). Inclui controlo e análise de stock, verificação rápida de disponibilidade, geração automática de contratos e uma dashboard analítica com métricas operacionais em tempo real.",
+      "stack": ["Python", "MySQL", "SQLite", "CustomTkinter", "Matplotlib", "Git"],
+      "stats": [
+        { "num": "22",     "label": "unidades" },
+        { "num": "17",     "label": "tabelas" },
+        { "num": "394",    "label": "testes" },
+        { "num": "82%",    "label": "ocupação" }
+      ],
+      "terminal": [
+        { "type": "cmd", "text": "python main.py --status" },
+        { "type": "out", "text": "<span class=\"term-dim\"># Sistema de Gestão de Alojamento — Porto</span>" },
+        { "type": "out", "text": "" },
+        { "type": "ok",  "text": "✓ A inicializar módulos..." },
+        { "type": "ok",  "text": "✓ Base de dados MySQL conectada (22 unidades)" },
+        { "type": "ok",  "text": "✓ Camada SQLite local sincronizada" },
+        { "type": "ok",  "text": "✓ Interface CustomTkinter carregada" },
+        { "type": "out", "text": "" },
+        { "type": "out", "text": "<span class=\"term-key\">Estado atual:</span>" },
+        { "type": "out", "text": "  Unidades totais ............ <span class=\"term-val\">22</span>" },
+        { "type": "out", "text": "  Ocupação atual ............ <span class=\"term-val\">18 / 22 (82%)</span>" },
+        { "type": "out", "text": "  Contratos ativos .......... <span class=\"term-val\">24</span>" },
+        { "type": "out", "text": "  Reservas Airbnb ........... <span class=\"term-val\">6</span>" },
+        { "type": "out", "text": "  Receita do mês ............ <span class=\"term-val\">€ 6 240</span>" },
+        { "type": "out", "text": "  Alertas de stock .......... <span class=\"term-warn\">2</span>" },
+        { "type": "out", "text": "" },
+        { "type": "ok",  "text": "✓ Testes: 394 passaram / 0 falharam" }
+      ],
+      "link": "https://github.com/Mauriciopates/hostel_gestao"
+    },
+    {
+      "id": "siape",
+      "name": "Pipeline de Dados SIAPE",
+      "tags": "Python · MySQL · ETL · Tkinter",
+      "year": "2025",
+      "category": "ETL / Automação",
+      "image": "img/proj-siape.png",
+      "desc": "Pipeline de ETL que extrai dados públicos do Portal da Transparência (governo brasileiro), normaliza e carrega para MySQL remoto. Interface gráfica em Tkinter com passos sequenciais (conexão, download, descompactação, envio, verificação e limpeza) e painel de logs em tempo real.",
+      "stack": ["Python", "MySQL", "ETL", "Tkinter"],
+      "stats": [
+        { "num": "7",       "label": "etapas" },
+        { "num": "2 805",   "label": "registos" },
+        { "num": "1m 42s",  "label": "duração" },
+        { "num": "7",       "label": "tabelas" }
+      ],
+      "terminal": [
+        { "type": "cmd", "text": "python siape_pipeline.py --mode=full" },
+        { "type": "out", "text": "<span class=\"term-dim\"># Pipeline SIAPE — Portal da Transparência</span>" },
+        { "type": "out", "text": "" },
+        { "type": "ok",  "text": "✓ [1/4] Extração — 2 847 registos obtidos" },
+        { "type": "ok",  "text": "✓ [2/4] Normalização — encoding UTF-8, datas ISO" },
+        { "type": "ok",  "text": "✓ [3/4] Validação — 42 registos inconsistentes removidos" },
+        { "type": "ok",  "text": "✓ [4/4] Carga em MySQL remoto" },
+        { "type": "out", "text": "" },
+        { "type": "out", "text": "  <span class=\"term-key\">Destino:</span> <span class=\"term-val\">mysql://remote-host:3306/siape</span>" },
+        { "type": "out", "text": "  <span class=\"term-key\">Registos inseridos:</span> <span class=\"term-val\">2 805</span>" },
+        { "type": "out", "text": "  <span class=\"term-key\">Tempo total:</span> <span class=\"term-val\">1m 42s</span>" },
+        { "type": "out", "text": "" },
+        { "type": "ok",  "text": "✓ Pipeline concluído sem erros." }
+      ],
+      "link": "https://github.com/Mauriciopates/Database_automation_SIAPE"
+    },
+    {
+      "id": "cpgf",
+      "name": "Automação CPGF / GPGF",
+      "tags": "Python · MySQL · CLI",
+      "year": "2025",
+      "category": "ETL / Automação",
+      "image": "img/proj-cpgf.png",
+      "desc": "Ferramenta CLI em Python para manutenção anual de tabelas CPGF e GPGF — extração, correção, normalização e importação em lote para MySQL. Menu interativo com verificação de integridade entre registos e diagnóstico de ficheiros CSV.",
+      "stack": ["Python", "MySQL", "CLI", "ETL"],
+      "stats": [
+        { "num": "8",      "label": "opções" },
+        { "num": "8 431",  "label": "registos" },
+        { "num": "28s",    "label": "duração" },
+        { "num": "0",      "label": "erros" }
+      ],
+      "terminal": [
+        { "type": "cmd", "text": "./cpgf_automation_cli --year=2024 --import" },
+        { "type": "out", "text": "<span class=\"term-dim\"># Automação CPGF/GPGF — manutenção anual</span>" },
+        { "type": "out", "text": "" },
+        { "type": "ok",  "text": "✓ Ano selecionado: 2024" },
+        { "type": "ok",  "text": "✓ Ficheiros CSV encontrados: 12" },
+        { "type": "ok",  "text": "✓ Validação de cabeçalhos: OK" },
+        { "type": "ok",  "text": "✓ Importação em lote para MySQL" },
+        { "type": "out", "text": "" },
+        { "type": "out", "text": "  <span class=\"term-key\">Tabela:</span> <span class=\"term-val\">cpgf_2024</span>" },
+        { "type": "out", "text": "  <span class=\"term-key\">Registos importados:</span> <span class=\"term-val\">8 431</span>" },
+        { "type": "out", "text": "  <span class=\"term-key\">Duplicados ignorados:</span> <span class=\"term-val\">17</span>" },
+        { "type": "out", "text": "" },
+        { "type": "ok",  "text": "✓ Integridade verificada. Nenhuma inconsistência." }
+      ],
+      "link": "https://github.com/Mauriciopates/Database_automation_GPGF"
+    },
+    {
+      "id": "relatorios",
+      "name": "Relatórios de Segurança",
+      "tags": "Python · Tkinter · Matplotlib",
+      "year": "2025",
+      "category": "Python / Dados",
+      "image": "img/proj-relatorios.png",
+      "desc": "Aplicação desktop para análise de logs de segurança com interface Tkinter. Apresenta dashboards com totais de eventos, críticos, avisos e utilizadores, permitindo consulta geral, detalhe por módulo, análise temporal e listagem por utilizador. Distribuída como executável único via PyInstaller.",
+      "stack": ["Python", "Tkinter", "Matplotlib", "PyInstaller"],
+      "stats": [
+        { "num": "10 502", "label": "eventos" },
+        { "num": "5 362",  "label": "críticos" },
+        { "num": "4",      "label": "módulos" },
+        { "num": "28 MB",  "label": "executável" }
+      ],
+      "terminal": [
+        { "type": "cmd", "text": "pyinstaller --onefile --windowed relatorios.py" },
+        { "type": "out", "text": "<span class=\"term-dim\"># Build do executável — Relatórios de Segurança</span>" },
+        { "type": "out", "text": "" },
+        { "type": "out", "text": "  <span class=\"term-key\">INFO:</span> PyInstaller: 6.x" },
+        { "type": "out", "text": "  <span class=\"term-key\">INFO:</span> Python: 3.11" },
+        { "type": "out", "text": "  <span class=\"term-key\">INFO:</span> Platform: Windows-10" },
+        { "type": "out", "text": "" },
+        { "type": "ok",  "text": "✓ Análise de dependências concluída" },
+        { "type": "ok",  "text": "✓ Módulos Matplotlib e Tkinter empacotados" },
+        { "type": "ok",  "text": "✓ Ficheiros binários gerados" },
+        { "type": "out", "text": "" },
+        { "type": "out", "text": "  <span class=\"term-key\">Output:</span> <span class=\"term-val\">dist/security_reports.exe</span>" },
+        { "type": "out", "text": "  <span class=\"term-key\">Tamanho:</span> <span class=\"term-val\">28.4 MB</span>" },
+        { "type": "out", "text": "" },
+        { "type": "ok",  "text": "✓ Build concluído com sucesso." }
+      ],
+      "link": "https://github.com/Mauriciopates/Projeto_seguranca"
+    }
+  ],
+
+  "formacao": [
+    {
+      "date": "abr 2026 – mai 2027",
+      "title": "Técnico/a Especialista em Tecnologias e Programação de Sistemas de Informação (Nível 5)",
+      "org": "IEFP — Centro de Formação Profissional do Porto",
+      "desc": "Curso de Especialização Tecnológica (CET). Formação avançada em engenharia de software, bases de dados relacionais e NoSQL, desenvolvimento web fullstack, algoritmia, integração de sistemas e redes.",
+      "current": true
+    },
+    {
+      "date": "jan 2020 – dez 2022",
+      "title": "Bacharelato em Gestão Comercial",
+      "org": "UNIP — Universidade Paulista",
+      "desc": "Formação em gestão comercial, análise de dados de vendas, marketing estratégico e operações de retalho.",
+      "current": false
+    },
+    {
+      "date": "2013 – 2022",
+      "title": "Percurso profissional em análise de dados e liderança operacional",
+      "org": "Drogarias Campeã · AHM Ace Hospitality",
+      "desc": "10+ anos em análise de dados comerciais, prevenção de perdas, gestão de inventário e liderança de equipas em ambientes de retalho e hotelaria.",
+      "current": false
+    }
+  ],
+
+  "certificados": [
+    {
+      "name": "Banco de Dados SQL do Zero ao Avançado + Projetos Reais",
+      "issuer": "Udemy",
+      "date": "jul 2026",
+      "color": "#3b6cf0",
+      "inicial": "U"
+    },
+    {
+      "name": "CLC — Curso de Liderança Contemporânea",
+      "issuer": "Drogarias Campeã",
+      "date": "out 2021",
+      "color": "#5a85ff",
+      "inicial": "DC"
+    },
+    {
+      "name": "Comunicação e Oratória",
+      "issuer": "Escola Conquer",
+      "date": "ago 2021",
+      "color": "#7aa0ff",
+      "inicial": "C"
+    },
+    {
+      "name": "Gestão e Liderança: Conceitos Básicos da Função Gerencial",
+      "issuer": "Fundação Getulio Vargas",
+      "date": "mai 2020",
+      "color": "#3b6cf0",
+      "inicial": "FGV"
+    },
+    {
+      "name": "Gestão de Vendas: Noções Básicas de Criação de Estratégia",
+      "issuer": "Fundação Getulio Vargas",
+      "date": "abr 2020",
+      "color": "#5a85ff",
+      "inicial": "FGV"
+    },
+    {
+      "name": "Microsoft Excel 2013 — Avançado",
+      "issuer": "Fundação Bradesco",
+      "date": "jul 2019",
+      "color": "#7aa0ff",
+      "inicial": "FB"
+    },
+    {
+      "name": "Leader Coach Training",
+      "issuer": "Instituto Brasileiro de Coaching — IBC",
+      "date": "ago 2018",
+      "color": "#3b6cf0",
+      "inicial": "IBC"
+    }
+  ]
+}
