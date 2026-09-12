@@ -1,6 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════
    MAURÍCIO PATES · PORTFÓLIO TÉCNICO
-   script.js — v3 (corrigido: expansão estável, reveal garantido)
+   script.js — v5 (fallback de dados completo + imagens robustas)
    ═══════════════════════════════════════════════════════════════ */
 
 'use strict';
@@ -10,34 +10,259 @@ const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
 const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
 /* ─────────────────────────────────────────────
+   IMAGE FALLBACK
+───────────────────────────────────────────── */
+const ImageFallback = (() => {
+  const CANDIDATES = ['.png', '.PNG', '.jpg', '.JPG', '.jpeg', '.JPEG', '.webp', '.WEBP'];
+
+  function attach(img) {
+    if (!img || img.dataset.fbBound) return;
+    img.dataset.fbBound = '1';
+
+    // Se já tem onerror inline, não duplica
+    if (img.hasAttribute('onerror')) return;
+
+    const tried = new Set();
+    const baseSrc = img.getAttribute('src') || '';
+    const dotIdx = baseSrc.lastIndexOf('.');
+    if (dotIdx < 0) return;
+    const base = baseSrc.slice(0, dotIdx);
+    const originalExt = baseSrc.slice(dotIdx);
+    tried.add(originalExt);
+
+    img.addEventListener('error', () => {
+      for (const ext of CANDIDATES) {
+        if (tried.has(ext)) continue;
+        tried.add(ext);
+        img.src = base + ext;
+        return;
+      }
+      img.classList.add('img-error');
+      console.warn('[ImageFallback] Nenhuma variante encontrada para:', base);
+    });
+  }
+
+  function init() {
+    $$('img[data-fallback-id], .hero-photo, .skill-tile img, .project-block-media img, .er-detail-img').forEach(attach);
+  }
+
+  function observe(container) {
+    if (!container) return;
+    container.querySelectorAll('img').forEach(attach);
+  }
+
+  return { init, attach, observe };
+})();
+
+/* ─────────────────────────────────────────────
    MÓDULO 1 — DATA
+   FALLBACK agora tem TODOS os dados reais, para funcionar em file://
 ───────────────────────────────────────────── */
 const Data = (() => {
   let cache = null;
   const FALLBACK = {
-    skills: [
-      { name: 'Python', level: 78 }, { name: 'JavaScript', level: 62 },
-      { name: 'HTML5', level: 80 }, { name: 'CSS3', level: 78 },
-      { name: 'MySQL', level: 82 }, { name: 'PostgreSQL', level: 55 },
-      { name: 'SQL Server', level: 62 }, { name: 'SQLite', level: 70 },
-      { name: 'MongoDB', level: 48 }, { name: 'Git', level: 76 },
-      { name: 'Linux', level: 65 }, { name: 'Proxmox', level: 58 },
-      { name: 'Java', level: 45 }, { name: 'VS Code', level: 82 }
+    "skills": [
+      { "name": "Python",      "level": 78 },
+      { "name": "JavaScript",  "level": 62 },
+      { "name": "HTML5",       "level": 80 },
+      { "name": "CSS3",        "level": 78 },
+      { "name": "MySQL",       "level": 82 },
+      { "name": "PostgreSQL",  "level": 55 },
+      { "name": "SQL Server",  "level": 62 },
+      { "name": "SQLite",      "level": 70 },
+      { "name": "MongoDB",     "level": 48 },
+      { "name": "Git",         "level": 76 },
+      { "name": "Linux",       "level": 65 },
+      { "name": "Proxmox",     "level": 58 },
+      { "name": "Java",        "level": 45 },
+      { "name": "VS Code",     "level": 82 }
     ],
-    chart: [
-      { label: 'Python / Dados', count: 3, color: 'var(--viz-blue-1)' },
-      { label: 'Web (Frontend)', count: 2, color: 'var(--viz-blue-2)' },
-      { label: 'ETL / Automação', count: 2, color: 'var(--viz-blue-3)' }
+    "chart": [
+      { "label": "Python / Dados",  "count": 3, "color": "var(--viz-blue-1)" },
+      { "label": "Web (Frontend)",  "count": 2, "color": "var(--viz-blue-2)" },
+      { "label": "ETL / Automação", "count": 2, "color": "var(--viz-blue-3)" }
     ],
-    projects: [], formacao: [], certificados: []
+    "projects": [
+      {
+        "id": "hostel",
+        "name": "Sistema Unificado de Gestão de Hostel",
+        "tags": "Python · MySQL · SQLite · CustomTkinter",
+        "year": "2026",
+        "category": "Python / Dados",
+        "image": "img/proj-hostel.png",
+        "desc": "Sistema híbrido para gestão de 22 unidades de alojamento em regime misto — arrendamento mensal partilhado e estadias curtas (Airbnb). Inclui controlo e análise de stock, verificação rápida de disponibilidade, geração automática de contratos e uma dashboard analítica com métricas operacionais em tempo real.",
+        "stack": ["Python", "MySQL", "SQLite", "CustomTkinter", "Matplotlib", "Git"],
+        "stats": [
+          { "num": "22",     "label": "unidades" },
+          { "num": "17",     "label": "tabelas" },
+          { "num": "394",    "label": "testes" },
+          { "num": "82%",    "label": "ocupação" }
+        ],
+        "terminal": [
+          { "type": "cmd", "text": "python main.py --status" },
+          { "type": "out", "text": "<span class=\"term-dim\"># Sistema de Gestão de Alojamento — Porto</span>" },
+          { "type": "out", "text": "" },
+          { "type": "ok",  "text": "✓ A inicializar módulos..." },
+          { "type": "ok",  "text": "✓ Base de dados MySQL conectada (22 unidades)" },
+          { "type": "ok",  "text": "✓ Camada SQLite local sincronizada" },
+          { "type": "ok",  "text": "✓ Interface CustomTkinter carregada" },
+          { "type": "out", "text": "" },
+          { "type": "out", "text": "<span class=\"term-key\">Estado atual:</span>" },
+          { "type": "out", "text": "  Unidades totais ............ <span class=\"term-val\">22</span>" },
+          { "type": "out", "text": "  Ocupação atual ............ <span class=\"term-val\">18 / 22 (82%)</span>" },
+          { "type": "out", "text": "  Contratos ativos .......... <span class=\"term-val\">24</span>" },
+          { "type": "out", "text": "  Reservas Airbnb ........... <span class=\"term-val\">6</span>" },
+          { "type": "out", "text": "  Receita do mês ............ <span class=\"term-val\">€ 6 240</span>" },
+          { "type": "out", "text": "  Alertas de stock .......... <span class=\"term-warn\">2</span>" },
+          { "type": "out", "text": "" },
+          { "type": "ok",  "text": "✓ Testes: 394 passaram / 0 falharam" }
+        ],
+        "link": "https://github.com/Mauriciopates/hostel_gestao"
+      },
+      {
+        "id": "siape",
+        "name": "Pipeline de Dados SIAPE",
+        "tags": "Python · MySQL · ETL · Tkinter",
+        "year": "2025",
+        "category": "ETL / Automação",
+        "image": "img/proj-siape.png",
+        "desc": "Pipeline de ETL que extrai dados públicos do Portal da Transparência (governo brasileiro), normaliza e carrega para MySQL remoto. Interface gráfica em Tkinter com passos sequenciais (conexão, download, descompactação, envio, verificação e limpeza) e painel de logs em tempo real.",
+        "stack": ["Python", "MySQL", "ETL", "Tkinter"],
+        "stats": [
+          { "num": "7",       "label": "etapas" },
+          { "num": "2 805",   "label": "registos" },
+          { "num": "1m 42s",  "label": "duração" },
+          { "num": "7",       "label": "tabelas" }
+        ],
+        "terminal": [
+          { "type": "cmd", "text": "python siape_pipeline.py --mode=full" },
+          { "type": "out", "text": "<span class=\"term-dim\"># Pipeline SIAPE — Portal da Transparência</span>" },
+          { "type": "out", "text": "" },
+          { "type": "ok",  "text": "✓ [1/4] Extração — 2 847 registos obtidos" },
+          { "type": "ok",  "text": "✓ [2/4] Normalização — encoding UTF-8, datas ISO" },
+          { "type": "ok",  "text": "✓ [3/4] Validação — 42 registos inconsistentes removidos" },
+          { "type": "ok",  "text": "✓ [4/4] Carga em MySQL remoto" },
+          { "type": "out", "text": "" },
+          { "type": "out", "text": "  <span class=\"term-key\">Destino:</span> <span class=\"term-val\">mysql://remote-host:3306/siape</span>" },
+          { "type": "out", "text": "  <span class=\"term-key\">Registos inseridos:</span> <span class=\"term-val\">2 805</span>" },
+          { "type": "out", "text": "  <span class=\"term-key\">Tempo total:</span> <span class=\"term-val\">1m 42s</span>" },
+          { "type": "out", "text": "" },
+          { "type": "ok",  "text": "✓ Pipeline concluído sem erros." }
+        ],
+        "link": "https://github.com/Mauriciopates/Database_automation_SIAPE"
+      },
+      {
+        "id": "cpgf",
+        "name": "Automação CPGF / GPGF",
+        "tags": "Python · MySQL · CLI",
+        "year": "2025",
+        "category": "ETL / Automação",
+        "image": "img/proj-cpgf.png",
+        "desc": "Ferramenta CLI em Python para manutenção anual de tabelas CPGF e GPGF — extração, correção, normalização e importação em lote para MySQL. Menu interativo com verificação de integridade entre registos e diagnóstico de ficheiros CSV.",
+        "stack": ["Python", "MySQL", "CLI", "ETL"],
+        "stats": [
+          { "num": "8",      "label": "opções" },
+          { "num": "8 431",  "label": "registos" },
+          { "num": "28s",    "label": "duração" },
+          { "num": "0",      "label": "erros" }
+        ],
+        "terminal": [
+          { "type": "cmd", "text": "./cpgf_automation_cli --year=2024 --import" },
+          { "type": "out", "text": "<span class=\"term-dim\"># Automação CPGF/GPGF — manutenção anual</span>" },
+          { "type": "out", "text": "" },
+          { "type": "ok",  "text": "✓ Ano selecionado: 2024" },
+          { "type": "ok",  "text": "✓ Ficheiros CSV encontrados: 12" },
+          { "type": "ok",  "text": "✓ Validação de cabeçalhos: OK" },
+          { "type": "ok",  "text": "✓ Importação em lote para MySQL" },
+          { "type": "out", "text": "" },
+          { "type": "out", "text": "  <span class=\"term-key\">Tabela:</span> <span class=\"term-val\">cpgf_2024</span>" },
+          { "type": "out", "text": "  <span class=\"term-key\">Registos importados:</span> <span class=\"term-val\">8 431</span>" },
+          { "type": "out", "text": "  <span class=\"term-key\">Duplicados ignorados:</span> <span class=\"term-val\">17</span>" },
+          { "type": "out", "text": "" },
+          { "type": "ok",  "text": "✓ Integridade verificada. Nenhuma inconsistência." }
+        ],
+        "link": "https://github.com/Mauriciopates/Database_automation_GPGF"
+      },
+      {
+        "id": "relatorios",
+        "name": "Relatórios de Segurança",
+        "tags": "Python · Tkinter · Matplotlib",
+        "year": "2025",
+        "category": "Python / Dados",
+        "image": "img/proj-relatorios.png",
+        "desc": "Aplicação desktop para análise de logs de segurança com interface Tkinter. Apresenta dashboards com totais de eventos, críticos, avisos e utilizadores, permitindo consulta geral, detalhe por módulo, análise temporal e listagem por utilizador. Distribuída como executável único via PyInstaller.",
+        "stack": ["Python", "Tkinter", "Matplotlib", "PyInstaller"],
+        "stats": [
+          { "num": "10 502", "label": "eventos" },
+          { "num": "5 362",  "label": "críticos" },
+          { "num": "4",      "label": "módulos" },
+          { "num": "28 MB",  "label": "executável" }
+        ],
+        "terminal": [
+          { "type": "cmd", "text": "pyinstaller --onefile --windowed relatorios.py" },
+          { "type": "out", "text": "<span class=\"term-dim\"># Build do executável — Relatórios de Segurança</span>" },
+          { "type": "out", "text": "" },
+          { "type": "out", "text": "  <span class=\"term-key\">INFO:</span> PyInstaller: 6.x" },
+          { "type": "out", "text": "  <span class=\"term-key\">INFO:</span> Python: 3.11" },
+          { "type": "out", "text": "  <span class=\"term-key\">INFO:</span> Platform: Windows-10" },
+          { "type": "out", "text": "" },
+          { "type": "ok",  "text": "✓ Análise de dependências concluída" },
+          { "type": "ok",  "text": "✓ Módulos Matplotlib e Tkinter empacotados" },
+          { "type": "ok",  "text": "✓ Ficheiros binários gerados" },
+          { "type": "out", "text": "" },
+          { "type": "out", "text": "  <span class=\"term-key\">Output:</span> <span class=\"term-val\">dist/security_reports.exe</span>" },
+          { "type": "out", "text": "  <span class=\"term-key\">Tamanho:</span> <span class=\"term-val\">28.4 MB</span>" },
+          { "type": "out", "text": "" },
+          { "type": "ok",  "text": "✓ Build concluído com sucesso." }
+        ],
+        "link": "https://github.com/Mauriciopates/Projeto_seguranca"
+      }
+    ],
+    "formacao": [
+      {
+        "date": "abr 2026 – mai 2027",
+        "title": "Técnico/a Especialista em Tecnologias e Programação de Sistemas de Informação (Nível 5)",
+        "org": "IEFP — Centro de Formação Profissional do Porto",
+        "desc": "Curso de Especialização Tecnológica (CET). Formação avançada em engenharia de software, bases de dados relacionais e NoSQL, desenvolvimento web fullstack, algoritmia, integração de sistemas e redes.",
+        "current": true
+      },
+      {
+        "date": "jan 2020 – dez 2022",
+        "title": "Bacharelato em Gestão Comercial",
+        "org": "UNIP — Universidade Paulista",
+        "desc": "Formação em gestão comercial, análise de dados de vendas, marketing estratégico e operações de retalho.",
+        "current": false
+      },
+      {
+        "date": "2013 – 2022",
+        "title": "Percurso profissional em análise de dados e liderança operacional",
+        "org": "Drogarias Campeã · AHM Ace Hospitality",
+        "desc": "10+ anos em análise de dados comerciais, prevenção de perdas, gestão de inventário e liderança de equipas em ambientes de retalho e hotelaria.",
+        "current": false
+      }
+    ],
+    "certificados": [
+      { "name": "Banco de Dados SQL do Zero ao Avançado + Projetos Reais", "issuer": "Udemy", "date": "jul 2026", "color": "#3b6cf0", "inicial": "U" },
+      { "name": "CLC — Curso de Liderança Contemporânea", "issuer": "Drogarias Campeã", "date": "out 2021", "color": "#5a85ff", "inicial": "DC" },
+      { "name": "Comunicação e Oratória", "issuer": "Escola Conquer", "date": "ago 2021", "color": "#7aa0ff", "inicial": "C" },
+      { "name": "Gestão e Liderança: Conceitos Básicos da Função Gerencial", "issuer": "Fundação Getulio Vargas", "date": "mai 2020", "color": "#3b6cf0", "inicial": "FGV" },
+      { "name": "Gestão de Vendas: Noções Básicas de Criação de Estratégia", "issuer": "Fundação Getulio Vargas", "date": "abr 2020", "color": "#5a85ff", "inicial": "FGV" },
+      { "name": "Microsoft Excel 2013 — Avançado", "issuer": "Fundação Bradesco", "date": "jul 2019", "color": "#7aa0ff", "inicial": "FB" },
+      { "name": "Leader Coach Training", "issuer": "Instituto Brasileiro de Coaching — IBC", "date": "ago 2018", "color": "#3b6cf0", "inicial": "IBC" }
+    ]
   };
+
   async function load() {
     if (cache) return cache;
     try {
       const res = await fetch('data.json');
-      if (!res.ok) throw new Error();
+      if (!res.ok) throw new Error('HTTP ' + res.status);
       cache = await res.json();
-    } catch { cache = FALLBACK; }
+      console.info('[Data] data.json carregado via fetch.');
+    } catch (e) {
+      console.warn('[Data] Não foi possível carregar data.json — a usar fallback interno.', e.message);
+      cache = FALLBACK;
+    }
     return cache;
   }
   return { load };
@@ -272,7 +497,7 @@ const Skills = (() => {
 })();
 
 /* ─────────────────────────────────────────────
-   MÓDULO 7 — GRÁFICO DONUT
+   MÓDULO 7 — DONUT
 ───────────────────────────────────────────── */
 const Chart = (() => {
   async function render() {
@@ -326,7 +551,6 @@ const Projects = (() => {
   let activeErIndex = -1;
   const typingLocks = new Set();
 
-  /* ── DESTAQUE ── */
   function renderFeaturedBlock(proj, index) {
     const num = String(index + 1).padStart(2, '0');
     const stats = (proj.stats || []).map(s => `
@@ -336,7 +560,7 @@ const Projects = (() => {
       </div>`).join('');
     const tags = (proj.stack || []).map(t => `<span class="tag">${t}</span>`).join('');
     const hasImage = proj.image
-      ? `<img src="${proj.image}" alt="${proj.name}" loading="lazy">`
+      ? `<img src="${proj.image}" alt="${proj.name}" loading="lazy" onerror="this.style.display='none'">`
       : '<div style="width:100%;height:100%;display:grid;place-items:center;color:var(--text-faint);font-family:var(--font-mono);font-size:0.85rem">sem imagem</div>';
     const link = (proj.link && proj.link !== '#')
       ? `<a href="${proj.link}" target="_blank" rel="noopener" class="btn btn-primary"><span data-i18n="projects.code">Ver código ↗</span></a>` : '';
@@ -386,7 +610,6 @@ const Projects = (() => {
     });
   }
 
-  /* ── ER ── */
   function buildTableSpec(proj) {
     return {
       id: proj.id, name: proj.name, category: proj.category || '',
@@ -430,7 +653,7 @@ const Projects = (() => {
             </button>
             <h3 class="er-detail-title">${spec.name}</h3>
             <span class="er-detail-meta">${spec.year} · ${spec.category}</span>
-            <img class="er-detail-img" src="${spec.image}" alt="${spec.name}" loading="lazy">
+            <img class="er-detail-img" src="${spec.image}" alt="${spec.name}" loading="lazy" onerror="this.style.display='none'">
             <p class="er-detail-desc">${spec.desc}</p>
             <div class="er-detail-stack">${stackTags}</div>
             <div class="er-detail-actions">${linkBtn}</div>
@@ -463,37 +686,16 @@ const Projects = (() => {
     }));
   }
 
-  /* ── EVENTOS ER ── */
   function bindErEvents() {
     const wrap = $('#erDiagram');
     if (!wrap) return;
 
-    // Delegação única — evita múltiplos bindings e bugs
     wrap.addEventListener('click', (e) => {
-      // X fecha
-      if (e.target.closest('[data-er-close]')) {
-        e.stopPropagation();
-        collapseErNode();
-        return;
-      }
-      // Setas
-      if (e.target.closest('[data-er-prev]')) {
-        e.stopPropagation();
-        if (activeErIndex > 0) expandErNode(activeErIndex - 1);
-        return;
-      }
-      if (e.target.closest('[data-er-next]')) {
-        e.stopPropagation();
-        if (activeErIndex < erProjects.length - 1) expandErNode(activeErIndex + 1);
-        return;
-      }
-      // Links deixam passar
+      if (e.target.closest('[data-er-close]')) { e.stopPropagation(); collapseErNode(); return; }
+      if (e.target.closest('[data-er-prev]')) { e.stopPropagation(); if (activeErIndex > 0) expandErNode(activeErIndex - 1); return; }
+      if (e.target.closest('[data-er-next]')) { e.stopPropagation(); if (activeErIndex < erProjects.length - 1) expandErNode(activeErIndex + 1); return; }
       if (e.target.closest('a')) return;
-
-      // Se clicou dentro do nó expandido (área de detalhe), ignora
       if (e.target.closest('.er-node.expanded')) return;
-
-      // Se clicou num nó fechado, expande
       const node = e.target.closest('.er-node');
       if (node && !node.classList.contains('expanded')) {
         const idx = parseInt(node.dataset.index, 10);
@@ -501,7 +703,6 @@ const Projects = (() => {
       }
     });
 
-    // Teclado
     wrap.addEventListener('keydown', (e) => {
       if (e.key !== 'Enter' && e.key !== ' ') return;
       const node = e.target.closest('.er-node');
@@ -511,7 +712,6 @@ const Projects = (() => {
       if (!isNaN(idx)) expandErNode(idx);
     });
 
-    // ESC fecha
     if (!wrap._hasEscListener) {
       wrap._hasEscListener = true;
       document.addEventListener('keydown', (e) => {
@@ -523,28 +723,17 @@ const Projects = (() => {
   function expandErNode(index) {
     const wrap = $('#erDiagram');
     if (!wrap) return;
-
-    // Fecha o anterior
     wrap.querySelectorAll('.er-node').forEach(n => {
       n.classList.remove('expanded');
       n.setAttribute('aria-expanded', 'false');
     });
-
     const target = wrap.querySelector(`.er-node[data-index="${index}"]`);
     if (!target) return;
-
     target.classList.add('expanded');
     target.setAttribute('aria-expanded', 'true');
     wrap.classList.add('has-expanded');
     activeErIndex = index;
-
-    // Redesenha SVG depois do layout assentar
-    setTimeout(() => {
-      drawErConnections();
-      drawFeaturedToEr();
-    }, 420);
-
-    // Scroll para o nó expandido (apenas se fora da viewport)
+    setTimeout(() => { drawErConnections(); drawFeaturedToEr(); }, 420);
     setTimeout(() => {
       const rect = target.getBoundingClientRect();
       const topOK = rect.top >= 80;
@@ -565,31 +754,21 @@ const Projects = (() => {
     });
     wrap.classList.remove('has-expanded');
     activeErIndex = -1;
-    setTimeout(() => {
-      drawErConnections();
-      drawFeaturedToEr();
-    }, 420);
+    setTimeout(() => { drawErConnections(); drawFeaturedToEr(); }, 420);
   }
 
-  /* ── SVG: conexões ER ── */
   function drawErConnections() {
     const svg = $('#erConnections');
     const wrap = $('#erDiagramWrap');
     const nodes = $$('.er-node');
     if (!svg || !wrap || nodes.length < 2) return;
-
     const wrapRect = wrap.getBoundingClientRect();
     svg.setAttribute('viewBox', `0 0 ${wrapRect.width} ${wrapRect.height}`);
     svg.setAttribute('preserveAspectRatio', 'none');
     while (svg.firstChild) svg.removeChild(svg.firstChild);
-
-    // Não desenha se houver expandido
     if ($('#erDiagram.has-expanded')) return;
 
-    const nodeInfo = nodes.map((n, i) => ({
-      node: n, index: i, ports: getPorts(n, wrapRect)
-    }));
-
+    const nodeInfo = nodes.map((n, i) => ({ node: n, index: i, ports: getPorts(n, wrapRect) }));
     const pairs = [];
     for (let i = 0; i < nodeInfo.length - 1; i++) {
       pairs.push({ from: nodeInfo[i], fromSide: 'right', to: nodeInfo[i + 1], toSide: 'left', style: 'primary' });
@@ -603,12 +782,10 @@ const Projects = (() => {
         }
       }
     }
-
     pairs.forEach(({ from, fromSide, to, toSide, style }) => {
       const p1 = from.ports[fromSide], p2 = to.ports[toSide];
       const path = buildCurvedPath(p1, p2, fromSide, toSide);
       const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-
       const halo = document.createElementNS('http://www.w3.org/2000/svg', 'path');
       halo.setAttribute('d', path);
       halo.setAttribute('fill', 'none');
@@ -616,7 +793,6 @@ const Projects = (() => {
       halo.setAttribute('stroke-width', '6');
       halo.setAttribute('stroke-opacity', '0.06');
       halo.setAttribute('stroke-linecap', 'round');
-
       const line = document.createElementNS('http://www.w3.org/2000/svg', 'path');
       line.setAttribute('d', path);
       line.setAttribute('fill', 'none');
@@ -625,15 +801,12 @@ const Projects = (() => {
       line.setAttribute('stroke-opacity', '0.55');
       line.setAttribute('stroke-linecap', 'round');
       if (style === 'ghost') line.setAttribute('stroke-dasharray', '4 4');
-
       const c1 = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
       c1.setAttribute('cx', p1.x); c1.setAttribute('cy', p1.y);
       c1.setAttribute('r', '3'); c1.setAttribute('fill', 'var(--accent)'); c1.setAttribute('fill-opacity', '0.85');
-
       const c2 = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
       c2.setAttribute('cx', p2.x); c2.setAttribute('cy', p2.y);
       c2.setAttribute('r', '3'); c2.setAttribute('fill', 'var(--accent)'); c2.setAttribute('fill-opacity', '0.85');
-
       g.appendChild(halo); g.appendChild(line); g.appendChild(c1); g.appendChild(c2);
       svg.appendChild(g);
     });
@@ -670,14 +843,12 @@ const Projects = (() => {
     return a.filter(x => b.includes(x));
   }
 
-  /* ── SVG: linha destaque → ER ── */
   function drawFeaturedToEr() {
     const svg = $('#featuredToEr');
     const wrap = $('.featured-to-er-wrap');
     const featured = $('.project-block');
     const erHead = $('.section-head-er');
     if (!svg || !wrap || !featured || !erHead) return;
-
     const wrapRect = wrap.getBoundingClientRect();
     if (wrapRect.width === 0 || wrapRect.height === 0) return;
     svg.setAttribute('viewBox', `0 0 ${wrapRect.width} ${wrapRect.height}`);
@@ -686,15 +857,11 @@ const Projects = (() => {
     const fRect = featured.getBoundingClientRect();
     const eRect = erHead.getBoundingClientRect();
 
-    // Começa no canto inferior-direito do card do destaque (com margem)
     const x0 = Math.min(Math.max(fRect.right - wrapRect.left - 80, 30), wrapRect.width - 30);
     const y0 = 4;
-
-    // Termina no topo-esquerdo do título do ER
     const x1 = Math.min(Math.max(eRect.left - wrapRect.left + 20, 30), wrapRect.width - 30);
     const y1 = Math.min(Math.max(eRect.top - wrapRect.top + 20, 4), wrapRect.height - 4);
 
-    // Bezier: desce e curva suavemente para a esquerda
     const c1x = x0;
     const c1y = y0 + wrapRect.height * 0.55;
     const c2x = x1 + 100;
@@ -712,22 +879,15 @@ const Projects = (() => {
 
     const cS = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
     cS.setAttribute('cx', x0); cS.setAttribute('cy', y0);
-    cS.setAttribute('r', '3.5');
-    cS.setAttribute('fill', 'var(--accent)');
-    cS.setAttribute('fill-opacity', '0.9');
+    cS.setAttribute('r', '3.5'); cS.setAttribute('fill', 'var(--accent)'); cS.setAttribute('fill-opacity', '0.9');
 
     const cE = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
     cE.setAttribute('cx', x1); cE.setAttribute('cy', y1);
-    cE.setAttribute('r', '3.5');
-    cE.setAttribute('fill', 'var(--accent)');
-    cE.setAttribute('fill-opacity', '0.9');
+    cE.setAttribute('r', '3.5'); cE.setAttribute('fill', 'var(--accent)'); cE.setAttribute('fill-opacity', '0.9');
 
-    svg.appendChild(path);
-    svg.appendChild(cS);
-    svg.appendChild(cE);
+    svg.appendChild(path); svg.appendChild(cS); svg.appendChild(cE);
   }
 
-  /* ── TERMINAL ── */
   function toggleProcess(id, btn) {
     const terminal = $('#terminal-' + id);
     if (!terminal) return;
@@ -791,11 +951,9 @@ const Projects = (() => {
     body.scrollTop = body.scrollHeight;
   }
 
-  /* ── RENDER ── */
   async function render() {
     await renderFeaturedSection();
     await renderEr();
-
     let rt = null;
     window.addEventListener('resize', () => {
       clearTimeout(rt);
@@ -952,20 +1110,17 @@ document.addEventListener('DOMContentLoaded', async () => {
   Theme.init();
   Lang.init();
   Nav.init();
+  ImageFallback.init();
 
   await Skills.render();
   await Chart.render();
   await Projects.render();
   await Formacao.render();
 
-  // UI.init() corre DEPOIS de todo o HTML dinâmico estar montado
   UI.init();
   ContactForm.init();
-
-  // Garantir reveal para o que já está na viewport
   UI.initReveal();
 
-  // Redesenhar SVGs depois de tudo assentar
   setTimeout(() => Projects.redraw(), 400);
   setTimeout(() => Projects.redraw(), 1200);
 });

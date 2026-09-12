@@ -120,7 +120,13 @@
         <div class="diamond-stack">
           <div class="diamond diamond-back"></div>
           <div class="diamond diamond-front">
-            <img src="img/perfil.png" alt="Maurício Pates" class="hero-photo">
+            <!-- Fallback inline: se falhar, tenta .jpg; se falhar, mostra placeholder -->
+            <img
+              src="img/perfil.png"
+              alt="Maurício Pates"
+              class="hero-photo"
+              onerror="if(!this.dataset.t){this.dataset.t='1';this.src='img/perfil.jpg';}else if(this.dataset.t==='1'){this.dataset.t='2';this.src='img/perfil.jpeg';}else{this.classList.add('img-error');this.parentElement.classList.add('no-photo');}"
+            >
           </div>
         </div>
         <div class="hero-badge">
