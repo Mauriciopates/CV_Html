@@ -1,6 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════
    MAURÍCIO PATES · PORTFÓLIO TÉCNICO
-   script.js — v5 (fallback de dados completo + imagens robustas)
+   script.js — v10 (só 1 stat big + 3 small, sem chevrons)
    ═══════════════════════════════════════════════════════════════ */
 
 'use strict';
@@ -8,6 +8,18 @@
 const $  = (sel, ctx = document) => ctx.querySelector(sel);
 const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
 const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+
+/* ─────────────────────────────────────────────
+   UTIL — escolhe campo consoante idioma
+───────────────────────────────────────────── */
+function field(obj, key) {
+  if (!obj) return '';
+  const lang = (window.Lang && Lang.current) ? Lang.current() : 'pt';
+  if (lang === 'en') {
+    return obj[key + '_en'] !== undefined ? obj[key + '_en'] : (obj[key] || '');
+  }
+  return obj[key] !== undefined ? obj[key] : '';
+}
 
 /* ─────────────────────────────────────────────
    IMAGE FALLBACK
@@ -18,8 +30,6 @@ const ImageFallback = (() => {
   function attach(img) {
     if (!img || img.dataset.fbBound) return;
     img.dataset.fbBound = '1';
-
-    // Se já tem onerror inline, não duplica
     if (img.hasAttribute('onerror')) return;
 
     const tried = new Set();
@@ -27,8 +37,7 @@ const ImageFallback = (() => {
     const dotIdx = baseSrc.lastIndexOf('.');
     if (dotIdx < 0) return;
     const base = baseSrc.slice(0, dotIdx);
-    const originalExt = baseSrc.slice(dotIdx);
-    tried.add(originalExt);
+    tried.add(baseSrc.slice(dotIdx));
 
     img.addEventListener('error', () => {
       for (const ext of CANDIDATES) {
@@ -45,7 +54,6 @@ const ImageFallback = (() => {
   function init() {
     $$('img[data-fallback-id], .hero-photo, .skill-tile img, .project-block-media img, .er-detail-img').forEach(attach);
   }
-
   function observe(container) {
     if (!container) return;
     container.querySelectorAll('img').forEach(attach);
@@ -56,200 +64,11 @@ const ImageFallback = (() => {
 
 /* ─────────────────────────────────────────────
    MÓDULO 1 — DATA
-   FALLBACK agora tem TODOS os dados reais, para funcionar em file://
 ───────────────────────────────────────────── */
 const Data = (() => {
   let cache = null;
   const FALLBACK = {
-    "skills": [
-      { "name": "Python",      "level": 78 },
-      { "name": "JavaScript",  "level": 62 },
-      { "name": "HTML5",       "level": 80 },
-      { "name": "CSS3",        "level": 78 },
-      { "name": "MySQL",       "level": 82 },
-      { "name": "PostgreSQL",  "level": 55 },
-      { "name": "SQL Server",  "level": 62 },
-      { "name": "SQLite",      "level": 70 },
-      { "name": "MongoDB",     "level": 48 },
-      { "name": "Git",         "level": 76 },
-      { "name": "Linux",       "level": 65 },
-      { "name": "Proxmox",     "level": 58 },
-      { "name": "Java",        "level": 45 },
-      { "name": "VS Code",     "level": 82 }
-    ],
-    "chart": [
-      { "label": "Python / Dados",  "count": 3, "color": "var(--viz-blue-1)" },
-      { "label": "Web (Frontend)",  "count": 2, "color": "var(--viz-blue-2)" },
-      { "label": "ETL / Automação", "count": 2, "color": "var(--viz-blue-3)" }
-    ],
-    "projects": [
-      {
-        "id": "hostel",
-        "name": "Sistema Unificado de Gestão de Hostel",
-        "tags": "Python · MySQL · SQLite · CustomTkinter",
-        "year": "2026",
-        "category": "Python / Dados",
-        "image": "img/proj-hostel.png",
-        "desc": "Sistema híbrido para gestão de 22 unidades de alojamento em regime misto — arrendamento mensal partilhado e estadias curtas (Airbnb). Inclui controlo e análise de stock, verificação rápida de disponibilidade, geração automática de contratos e uma dashboard analítica com métricas operacionais em tempo real.",
-        "stack": ["Python", "MySQL", "SQLite", "CustomTkinter", "Matplotlib", "Git"],
-        "stats": [
-          { "num": "22",     "label": "unidades" },
-          { "num": "17",     "label": "tabelas" },
-          { "num": "394",    "label": "testes" },
-          { "num": "82%",    "label": "ocupação" }
-        ],
-        "terminal": [
-          { "type": "cmd", "text": "python main.py --status" },
-          { "type": "out", "text": "<span class=\"term-dim\"># Sistema de Gestão de Alojamento — Porto</span>" },
-          { "type": "out", "text": "" },
-          { "type": "ok",  "text": "✓ A inicializar módulos..." },
-          { "type": "ok",  "text": "✓ Base de dados MySQL conectada (22 unidades)" },
-          { "type": "ok",  "text": "✓ Camada SQLite local sincronizada" },
-          { "type": "ok",  "text": "✓ Interface CustomTkinter carregada" },
-          { "type": "out", "text": "" },
-          { "type": "out", "text": "<span class=\"term-key\">Estado atual:</span>" },
-          { "type": "out", "text": "  Unidades totais ............ <span class=\"term-val\">22</span>" },
-          { "type": "out", "text": "  Ocupação atual ............ <span class=\"term-val\">18 / 22 (82%)</span>" },
-          { "type": "out", "text": "  Contratos ativos .......... <span class=\"term-val\">24</span>" },
-          { "type": "out", "text": "  Reservas Airbnb ........... <span class=\"term-val\">6</span>" },
-          { "type": "out", "text": "  Receita do mês ............ <span class=\"term-val\">€ 6 240</span>" },
-          { "type": "out", "text": "  Alertas de stock .......... <span class=\"term-warn\">2</span>" },
-          { "type": "out", "text": "" },
-          { "type": "ok",  "text": "✓ Testes: 394 passaram / 0 falharam" }
-        ],
-        "link": "https://github.com/Mauriciopates/hostel_gestao"
-      },
-      {
-        "id": "siape",
-        "name": "Pipeline de Dados SIAPE",
-        "tags": "Python · MySQL · ETL · Tkinter",
-        "year": "2025",
-        "category": "ETL / Automação",
-        "image": "img/proj-siape.png",
-        "desc": "Pipeline de ETL que extrai dados públicos do Portal da Transparência (governo brasileiro), normaliza e carrega para MySQL remoto. Interface gráfica em Tkinter com passos sequenciais (conexão, download, descompactação, envio, verificação e limpeza) e painel de logs em tempo real.",
-        "stack": ["Python", "MySQL", "ETL", "Tkinter"],
-        "stats": [
-          { "num": "7",       "label": "etapas" },
-          { "num": "2 805",   "label": "registos" },
-          { "num": "1m 42s",  "label": "duração" },
-          { "num": "7",       "label": "tabelas" }
-        ],
-        "terminal": [
-          { "type": "cmd", "text": "python siape_pipeline.py --mode=full" },
-          { "type": "out", "text": "<span class=\"term-dim\"># Pipeline SIAPE — Portal da Transparência</span>" },
-          { "type": "out", "text": "" },
-          { "type": "ok",  "text": "✓ [1/4] Extração — 2 847 registos obtidos" },
-          { "type": "ok",  "text": "✓ [2/4] Normalização — encoding UTF-8, datas ISO" },
-          { "type": "ok",  "text": "✓ [3/4] Validação — 42 registos inconsistentes removidos" },
-          { "type": "ok",  "text": "✓ [4/4] Carga em MySQL remoto" },
-          { "type": "out", "text": "" },
-          { "type": "out", "text": "  <span class=\"term-key\">Destino:</span> <span class=\"term-val\">mysql://remote-host:3306/siape</span>" },
-          { "type": "out", "text": "  <span class=\"term-key\">Registos inseridos:</span> <span class=\"term-val\">2 805</span>" },
-          { "type": "out", "text": "  <span class=\"term-key\">Tempo total:</span> <span class=\"term-val\">1m 42s</span>" },
-          { "type": "out", "text": "" },
-          { "type": "ok",  "text": "✓ Pipeline concluído sem erros." }
-        ],
-        "link": "https://github.com/Mauriciopates/Database_automation_SIAPE"
-      },
-      {
-        "id": "cpgf",
-        "name": "Automação CPGF / GPGF",
-        "tags": "Python · MySQL · CLI",
-        "year": "2025",
-        "category": "ETL / Automação",
-        "image": "img/proj-cpgf.png",
-        "desc": "Ferramenta CLI em Python para manutenção anual de tabelas CPGF e GPGF — extração, correção, normalização e importação em lote para MySQL. Menu interativo com verificação de integridade entre registos e diagnóstico de ficheiros CSV.",
-        "stack": ["Python", "MySQL", "CLI", "ETL"],
-        "stats": [
-          { "num": "8",      "label": "opções" },
-          { "num": "8 431",  "label": "registos" },
-          { "num": "28s",    "label": "duração" },
-          { "num": "0",      "label": "erros" }
-        ],
-        "terminal": [
-          { "type": "cmd", "text": "./cpgf_automation_cli --year=2024 --import" },
-          { "type": "out", "text": "<span class=\"term-dim\"># Automação CPGF/GPGF — manutenção anual</span>" },
-          { "type": "out", "text": "" },
-          { "type": "ok",  "text": "✓ Ano selecionado: 2024" },
-          { "type": "ok",  "text": "✓ Ficheiros CSV encontrados: 12" },
-          { "type": "ok",  "text": "✓ Validação de cabeçalhos: OK" },
-          { "type": "ok",  "text": "✓ Importação em lote para MySQL" },
-          { "type": "out", "text": "" },
-          { "type": "out", "text": "  <span class=\"term-key\">Tabela:</span> <span class=\"term-val\">cpgf_2024</span>" },
-          { "type": "out", "text": "  <span class=\"term-key\">Registos importados:</span> <span class=\"term-val\">8 431</span>" },
-          { "type": "out", "text": "  <span class=\"term-key\">Duplicados ignorados:</span> <span class=\"term-val\">17</span>" },
-          { "type": "out", "text": "" },
-          { "type": "ok",  "text": "✓ Integridade verificada. Nenhuma inconsistência." }
-        ],
-        "link": "https://github.com/Mauriciopates/Database_automation_GPGF"
-      },
-      {
-        "id": "relatorios",
-        "name": "Relatórios de Segurança",
-        "tags": "Python · Tkinter · Matplotlib",
-        "year": "2025",
-        "category": "Python / Dados",
-        "image": "img/proj-relatorios.png",
-        "desc": "Aplicação desktop para análise de logs de segurança com interface Tkinter. Apresenta dashboards com totais de eventos, críticos, avisos e utilizadores, permitindo consulta geral, detalhe por módulo, análise temporal e listagem por utilizador. Distribuída como executável único via PyInstaller.",
-        "stack": ["Python", "Tkinter", "Matplotlib", "PyInstaller"],
-        "stats": [
-          { "num": "10 502", "label": "eventos" },
-          { "num": "5 362",  "label": "críticos" },
-          { "num": "4",      "label": "módulos" },
-          { "num": "28 MB",  "label": "executável" }
-        ],
-        "terminal": [
-          { "type": "cmd", "text": "pyinstaller --onefile --windowed relatorios.py" },
-          { "type": "out", "text": "<span class=\"term-dim\"># Build do executável — Relatórios de Segurança</span>" },
-          { "type": "out", "text": "" },
-          { "type": "out", "text": "  <span class=\"term-key\">INFO:</span> PyInstaller: 6.x" },
-          { "type": "out", "text": "  <span class=\"term-key\">INFO:</span> Python: 3.11" },
-          { "type": "out", "text": "  <span class=\"term-key\">INFO:</span> Platform: Windows-10" },
-          { "type": "out", "text": "" },
-          { "type": "ok",  "text": "✓ Análise de dependências concluída" },
-          { "type": "ok",  "text": "✓ Módulos Matplotlib e Tkinter empacotados" },
-          { "type": "ok",  "text": "✓ Ficheiros binários gerados" },
-          { "type": "out", "text": "" },
-          { "type": "out", "text": "  <span class=\"term-key\">Output:</span> <span class=\"term-val\">dist/security_reports.exe</span>" },
-          { "type": "out", "text": "  <span class=\"term-key\">Tamanho:</span> <span class=\"term-val\">28.4 MB</span>" },
-          { "type": "out", "text": "" },
-          { "type": "ok",  "text": "✓ Build concluído com sucesso." }
-        ],
-        "link": "https://github.com/Mauriciopates/Projeto_seguranca"
-      }
-    ],
-    "formacao": [
-      {
-        "date": "abr 2026 – mai 2027",
-        "title": "Técnico/a Especialista em Tecnologias e Programação de Sistemas de Informação (Nível 5)",
-        "org": "IEFP — Centro de Formação Profissional do Porto",
-        "desc": "Curso de Especialização Tecnológica (CET). Formação avançada em engenharia de software, bases de dados relacionais e NoSQL, desenvolvimento web fullstack, algoritmia, integração de sistemas e redes.",
-        "current": true
-      },
-      {
-        "date": "jan 2020 – dez 2022",
-        "title": "Bacharelato em Gestão Comercial",
-        "org": "UNIP — Universidade Paulista",
-        "desc": "Formação em gestão comercial, análise de dados de vendas, marketing estratégico e operações de retalho.",
-        "current": false
-      },
-      {
-        "date": "2013 – 2022",
-        "title": "Percurso profissional em análise de dados e liderança operacional",
-        "org": "Drogarias Campeã · AHM Ace Hospitality",
-        "desc": "10+ anos em análise de dados comerciais, prevenção de perdas, gestão de inventário e liderança de equipas em ambientes de retalho e hotelaria.",
-        "current": false
-      }
-    ],
-    "certificados": [
-      { "name": "Banco de Dados SQL do Zero ao Avançado + Projetos Reais", "issuer": "Udemy", "date": "jul 2026", "color": "#3b6cf0", "inicial": "U" },
-      { "name": "CLC — Curso de Liderança Contemporânea", "issuer": "Drogarias Campeã", "date": "out 2021", "color": "#5a85ff", "inicial": "DC" },
-      { "name": "Comunicação e Oratória", "issuer": "Escola Conquer", "date": "ago 2021", "color": "#7aa0ff", "inicial": "C" },
-      { "name": "Gestão e Liderança: Conceitos Básicos da Função Gerencial", "issuer": "Fundação Getulio Vargas", "date": "mai 2020", "color": "#3b6cf0", "inicial": "FGV" },
-      { "name": "Gestão de Vendas: Noções Básicas de Criação de Estratégia", "issuer": "Fundação Getulio Vargas", "date": "abr 2020", "color": "#5a85ff", "inicial": "FGV" },
-      { "name": "Microsoft Excel 2013 — Avançado", "issuer": "Fundação Bradesco", "date": "jul 2019", "color": "#7aa0ff", "inicial": "FB" },
-      { "name": "Leader Coach Training", "issuer": "Instituto Brasileiro de Coaching — IBC", "date": "ago 2018", "color": "#3b6cf0", "inicial": "IBC" }
-    ]
+    skills: [], chart: [], projects: [], formacao: [], certificados: []
   };
 
   async function load() {
@@ -258,9 +77,9 @@ const Data = (() => {
       const res = await fetch('data.json');
       if (!res.ok) throw new Error('HTTP ' + res.status);
       cache = await res.json();
-      console.info('[Data] data.json carregado via fetch.');
+      console.info('[Data] data.json carregado.');
     } catch (e) {
-      console.warn('[Data] Não foi possível carregar data.json — a usar fallback interno.', e.message);
+      console.warn('[Data] A usar fallback.', e.message);
       cache = FALLBACK;
     }
     return cache;
@@ -374,7 +193,13 @@ const Lang = (() => {
     $$('.lang').forEach(b => {
       b.addEventListener('click', () => {
         const l = b.dataset.lang;
-        if (l && l !== current()) apply(l);
+        if (l && l !== current()) {
+          apply(l);
+          if (window.Skills && Skills.render) Skills.render();
+          if (window.Chart && Chart.render) Chart.render();
+          if (window.Projects && Projects.render) Projects.render();
+          if (window.Formacao && Formacao.render) Formacao.render();
+        }
       });
     });
   }
@@ -484,8 +309,7 @@ const Skills = (() => {
       <div class="skill-tile" style="animation-delay:${delay}" title="${skill.name} · ${skill.level}%">
         ${inner}
         <span class="skill-tile-name">${skill.name}</span>
-      </div>
-    `;
+      </div>`;
   }
   async function render() {
     const el = $('#skillsIcons');
@@ -518,7 +342,7 @@ const Chart = (() => {
     const legend = items.map(item => `
       <div class="legend-item">
         <span class="legend-swatch" style="background:${item.color}"></span>
-        <span class="legend-label">${item.label}</span>
+        <span class="legend-label">${field(item, 'label')}</span>
         <span class="legend-count"><strong>${item.count}</strong> proj.</span>
       </div>`).join('');
     wrap.innerHTML = `
@@ -551,25 +375,70 @@ const Projects = (() => {
   let activeErIndex = -1;
   const typingLocks = new Set();
 
+  /* ── ÍCONES SVG para os stats ── */
+  const STAT_ICONS = {
+    check:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>',
+    pencil:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>',
+    database: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>',
+    fire:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>',
+    rocket:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>',
+    code:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>',
+    star:     '<svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',
+    grid:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>',
+    shield:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>',
+    clock:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',
+    users:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
+    home:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>',
+    book:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>',
+    chart:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>'
+  };
+
+  /* ── Card do destaque ── */
   function renderFeaturedBlock(proj, index) {
-    const num = String(index + 1).padStart(2, '0');
-    const stats = (proj.stats || []).map(s => `
-      <div class="project-stat">
-        <span class="project-stat-num">${s.num}</span>
-        <span class="project-stat-lbl">${s.label}</span>
-      </div>`).join('');
+    const stats = (proj.stats || []).map((s) => {
+      const iconSvg = s.icon && STAT_ICONS[s.icon] ? STAT_ICONS[s.icon] : '';
+      const subHtml = s.sub ? `<span class="project-stat-sub">${field(s, 'sub')}</span>` : '';
+      const sizeClass = s.size === 'big' ? ' is-big' : ' is-small';
+      const hasTooltip = s.tooltip ? ` data-tooltip="${field(s, 'tooltip')}"` : '';
+      return `
+        <div class="project-stat${sizeClass}"${hasTooltip}>
+          <div class="project-stat-row">
+            ${iconSvg ? `<span class="project-stat-icon">${iconSvg}</span>` : ''}
+            <span class="project-stat-num">${s.num}</span>
+          </div>
+          <span class="project-stat-lbl">${field(s, 'label')}</span>
+          ${subHtml}
+        </div>`;
+    }).join('');
+
     const tags = (proj.stack || []).map(t => `<span class="tag">${t}</span>`).join('');
+
     const hasImage = proj.image
-      ? `<img src="${proj.image}" alt="${proj.name}" loading="lazy" onerror="this.style.display='none'">`
+      ? `<img src="${proj.image}" alt="${field(proj, 'name')}" loading="lazy" onerror="this.style.display='none'">`
       : '<div style="width:100%;height:100%;display:grid;place-items:center;color:var(--text-faint);font-family:var(--font-mono);font-size:0.85rem">sem imagem</div>';
+
+    const hasSecondary = !!proj.image_secondary;
+    const secondaryImage = hasSecondary
+      ? `<img src="${proj.image_secondary}" alt="${field(proj, 'name')} — extra" loading="lazy" onerror="this.style.display='none'">`
+      : '';
+
+    const mediaHtml = hasSecondary
+      ? `<div class="project-block-media-stack">
+           <div class="project-block-media">${hasImage}</div>
+           <div class="project-block-media project-block-media-secondary">${secondaryImage}</div>
+         </div>`
+      : `<div class="project-block-media">${hasImage}</div>`;
+
     const link = (proj.link && proj.link !== '#')
       ? `<a href="${proj.link}" target="_blank" rel="noopener" class="btn btn-primary"><span data-i18n="projects.code">Ver código ↗</span></a>` : '';
+
     const hasTerminal = Array.isArray(proj.terminal) && proj.terminal.length > 0;
     const processBtn = hasTerminal
       ? `<button class="btn-process" type="button" data-process="${proj.id}">
-           <svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
            <span class="btn-process-label" data-i18n="projects.process">Ver processo</span>
+           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
          </button>` : '';
+
     const terminalBlock = hasTerminal
       ? `<div class="project-block-terminal" id="terminal-${proj.id}" aria-hidden="true">
            <div class="terminal">
@@ -580,18 +449,17 @@ const Projects = (() => {
              <div class="terminal-body" id="terminal-body-${proj.id}"></div>
            </div>
          </div>` : '';
+
     return `
       <article class="project-block visible" data-project="${proj.id}">
         <div class="project-block-body">
-          <span class="project-block-num">${num} / ${proj.category || 'projeto'}</span>
-          <h3 class="project-block-title">${proj.name}</h3>
-          <span class="project-block-meta">${proj.year || ''} · ${proj.category || ''}</span>
-          <p class="project-block-desc">${proj.desc || ''}</p>
+          <h3 class="project-block-title">${field(proj, 'name')}</h3>
+          <p class="project-block-desc">${field(proj, 'desc')}</p>
           ${stats ? `<div class="project-block-stats">${stats}</div>` : ''}
           <div class="project-block-tags">${tags}</div>
           <div class="project-block-actions">${link}${processBtn}</div>
         </div>
-        <div class="project-block-media">${hasImage}</div>
+        ${mediaHtml}
         ${terminalBlock}
       </article>`;
   }
@@ -612,10 +480,16 @@ const Projects = (() => {
 
   function buildTableSpec(proj) {
     return {
-      id: proj.id, name: proj.name, category: proj.category || '',
-      year: proj.year || '', image: proj.image, tableName: proj.id,
+      id: proj.id,
+      name: field(proj, 'name'),
+      category: field(proj, 'category'),
+      year: proj.year || '',
+      image: proj.image,
+      tableName: proj.id,
       badge: proj.category === 'ETL / Automação' ? 'ETL' : 'PK',
-      desc: proj.desc || '', stack: proj.stack || [], link: proj.link || '',
+      desc: field(proj, 'desc'),
+      stack: proj.stack || [],
+      link: proj.link || '',
       rows: [
         { key: 'PK', name: 'id',           type: 'int' },
         { key: '',   name: 'nome',         type: 'varchar' },
@@ -689,6 +563,8 @@ const Projects = (() => {
   function bindErEvents() {
     const wrap = $('#erDiagram');
     if (!wrap) return;
+    if (wrap._hasClickBinding) return;
+    wrap._hasClickBinding = true;
 
     wrap.addEventListener('click', (e) => {
       if (e.target.closest('[data-er-close]')) { e.stopPropagation(); collapseErNode(); return; }
@@ -980,10 +856,10 @@ const Formacao = (() => {
     if (timeline) {
       timeline.innerHTML = (data.formacao || []).map(item => `
         <div class="timeline-item ${item.current ? 'current' : ''} reveal">
-          <span class="timeline-date">${item.date}</span>
-          <h3 class="timeline-title">${item.title}</h3>
-          <div class="timeline-org">${item.org}</div>
-          <p class="timeline-desc">${item.desc}</p>
+          <span class="timeline-date">${field(item, 'date')}</span>
+          <h3 class="timeline-title">${field(item, 'title')}</h3>
+          <div class="timeline-org">${field(item, 'org')}</div>
+          <p class="timeline-desc">${field(item, 'desc')}</p>
         </div>`).join('');
     }
     if (certs) {
@@ -991,9 +867,9 @@ const Formacao = (() => {
         <article class="cert-item reveal" style="--cert-color:${c.color}">
           <span class="cert-logo">${c.inicial}</span>
           <div class="cert-body">
-            <h4 class="cert-name">${c.name}</h4>
+            <h4 class="cert-name">${field(c, 'name')}</h4>
             <div class="cert-issuer">${c.issuer}</div>
-            <div class="cert-date">${c.date}</div>
+            <div class="cert-date">${field(c, 'date')}</div>
           </div>
         </article>`).join('');
     }
@@ -1102,6 +978,15 @@ const UI = (() => {
   function init() { initReveal(); initCopyEmail(); initCV(); }
   return { init, initReveal };
 })();
+
+/* ─────────────────────────────────────────────
+   EXPOR MÓDULOS
+───────────────────────────────────────────── */
+window.Skills = Skills;
+window.Chart = Chart;
+window.Projects = Projects;
+window.Formacao = Formacao;
+window.Lang = Lang;
 
 /* ─────────────────────────────────────────────
    BOOTSTRAP

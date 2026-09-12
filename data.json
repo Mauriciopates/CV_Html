@@ -17,7 +17,7 @@
   ],
 
   "chart": [
-    { "label": "Python / Dados",  "count": 3, "color": "var(--viz-blue-1)" },
+    { "label": "Python / Dados",  "count": 2, "color": "var(--viz-blue-1)" },
     { "label": "Web (Frontend)",  "count": 2, "color": "var(--viz-blue-2)" },
     { "label": "ETL / Automação", "count": 2, "color": "var(--viz-blue-3)" }
   ],
@@ -26,17 +26,46 @@
     {
       "id": "hostel",
       "name": "Sistema Unificado de Gestão de Hostel",
+      "name_en": "Unified Hostel Management System",
       "tags": "Python · MySQL · SQLite · CustomTkinter",
       "year": "2026",
       "category": "Python / Dados",
+      "category_en": "Python / Data",
       "image": "img/proj-hostel.png",
-      "desc": "Sistema híbrido para gestão de 22 unidades de alojamento em regime misto — arrendamento mensal partilhado e estadias curtas (Airbnb). Inclui controlo e análise de stock, verificação rápida de disponibilidade, geração automática de contratos e uma dashboard analítica com métricas operacionais em tempo real.",
-      "stack": ["Python", "MySQL", "SQLite", "CustomTkinter", "Matplotlib", "Git"],
+      "image_secondary": "img/proj-hostel-calendario.png",
+      "desc": "<p>Destacando excelência em engenharia de software e arquitetura de sistemas escaláveis para uma plataforma híbrida de gestão de alojamento. Projetado para zero overbooking e controlo total de estoque. Interface gráfica em CustomTkinter com sincronização de dados entre MySQL remoto garantindo consistência e disponibilidade.</p><p>Separado em 3 Fases de desenvolvimento:</p><ul><li><strong>Fase 1</strong> – Gestão CLI, lógica de negócio completa com persistência em JSON;</li><li><strong>Fase 2</strong> – GUI CustomTkinter, migração para SQLite, financeiro e relatórios (Atual);</li><li><strong>Fase 3</strong> – Aplicação web em Django, MySQL, servidor próprio e integração com API de reservas externas.</li></ul>",
+      "desc_en": "<p>Highlighting software engineering excellence and scalable system architecture for a hybrid hostel management platform. Engineered for zero overbooking and full stock control. GUI built with CustomTkinter and data synchronization across remote MySQL ensuring consistency and availability.</p><p>Split into 3 development phases:</p><ul><li><strong>Phase 1</strong> – CLI management, complete business logic with JSON persistence;</li><li><strong>Phase 2</strong> – CustomTkinter GUI, migration to SQLite, financial and reports (Current);</li><li><strong>Phase 3</strong> – Django web application, MySQL, self-hosted server and integration with external booking APIs.</li></ul>",
+      "stack": ["Python", "SQLite", "CustomTkinter", "Git"],
       "stats": [
-        { "num": "22",     "label": "unidades" },
-        { "num": "17",     "label": "tabelas" },
-        { "num": "394",    "label": "testes" },
-        { "num": "82%",    "label": "ocupação" }
+        {
+          "num": "3",
+          "label": "Fases de Desenvolvimento",
+          "label_en": "Development Phases",
+          "sub": "CLI · GUI · Web",
+          "sub_en": "CLI · GUI · Web",
+          "size": "big"
+        },
+        {
+          "num": "100%",
+          "label": "Zero Overbooking",
+          "label_en": "Zero Overbooking",
+          "icon": "check",
+          "size": "small"
+        },
+        {
+          "num": "394",
+          "label": "Testes Unitários",
+          "label_en": "Unit Tests",
+          "icon": "pencil",
+          "size": "small"
+        },
+        {
+          "num": "17",
+          "label": "Tabelas Relacionais",
+          "label_en": "Relational Tables",
+          "icon": "database",
+          "size": "small"
+        }
       ],
       "terminal": [
         { "type": "cmd", "text": "python main.py --status" },
@@ -62,17 +91,20 @@
     {
       "id": "siape",
       "name": "Pipeline de Dados SIAPE",
+      "name_en": "SIAPE Data Pipeline",
       "tags": "Python · MySQL · ETL · Tkinter",
       "year": "2025",
       "category": "ETL / Automação",
+      "category_en": "ETL / Automation",
       "image": "img/proj-siape.png",
       "desc": "Pipeline de ETL que extrai dados públicos do Portal da Transparência (governo brasileiro), normaliza e carrega para MySQL remoto. Interface gráfica em Tkinter com passos sequenciais (conexão, download, descompactação, envio, verificação e limpeza) e painel de logs em tempo real.",
+      "desc_en": "ETL pipeline that extracts public data from the Transparency Portal (Brazilian government), normalizes and loads it into a remote MySQL database. Tkinter GUI with sequential steps (connection, download, decompression, upload, verification and cleanup) and a real-time log panel.",
       "stack": ["Python", "MySQL", "ETL", "Tkinter"],
       "stats": [
-        { "num": "7",       "label": "etapas" },
-        { "num": "2 805",   "label": "registos" },
-        { "num": "1m 42s",  "label": "duração" },
-        { "num": "7",       "label": "tabelas" }
+        { "num": "7",      "label": "etapas",   "label_en": "steps" },
+        { "num": "2 805",  "label": "registos", "label_en": "records" },
+        { "num": "1m 42s", "label": "duração",  "label_en": "duration" },
+        { "num": "7",      "label": "tabelas",  "label_en": "tables" }
       ],
       "terminal": [
         { "type": "cmd", "text": "python siape_pipeline.py --mode=full" },
@@ -94,17 +126,20 @@
     {
       "id": "cpgf",
       "name": "Automação CPGF / GPGF",
+      "name_en": "CPGF / GPGF Automation",
       "tags": "Python · MySQL · CLI",
       "year": "2025",
       "category": "ETL / Automação",
+      "category_en": "ETL / Automation",
       "image": "img/proj-cpgf.png",
       "desc": "Ferramenta CLI em Python para manutenção anual de tabelas CPGF e GPGF — extração, correção, normalização e importação em lote para MySQL. Menu interativo com verificação de integridade entre registos e diagnóstico de ficheiros CSV.",
+      "desc_en": "Python CLI tool for annual maintenance of CPGF and GPGF tables — extraction, correction, normalization and batch import into MySQL. Interactive menu with integrity check between records and CSV file diagnostics.",
       "stack": ["Python", "MySQL", "CLI", "ETL"],
       "stats": [
-        { "num": "8",      "label": "opções" },
-        { "num": "8 431",  "label": "registos" },
-        { "num": "28s",    "label": "duração" },
-        { "num": "0",      "label": "erros" }
+        { "num": "8",     "label": "opções",   "label_en": "options" },
+        { "num": "8 431", "label": "registos", "label_en": "records" },
+        { "num": "28s",   "label": "duração",  "label_en": "duration" },
+        { "num": "0",     "label": "erros",    "label_en": "errors" }
       ],
       "terminal": [
         { "type": "cmd", "text": "./cpgf_automation_cli --year=2024 --import" },
@@ -126,17 +161,20 @@
     {
       "id": "relatorios",
       "name": "Relatórios de Segurança",
+      "name_en": "Security Reports",
       "tags": "Python · Tkinter · Matplotlib",
       "year": "2025",
       "category": "Python / Dados",
+      "category_en": "Python / Data",
       "image": "img/proj-relatorios.png",
       "desc": "Aplicação desktop para análise de logs de segurança com interface Tkinter. Apresenta dashboards com totais de eventos, críticos, avisos e utilizadores, permitindo consulta geral, detalhe por módulo, análise temporal e listagem por utilizador. Distribuída como executável único via PyInstaller.",
+      "desc_en": "Desktop application for security log analysis with a Tkinter interface. Displays dashboards with totals of events, criticals, warnings and users, allowing general queries, per-module detail, temporal analysis and per-user listing. Distributed as a single executable via PyInstaller.",
       "stack": ["Python", "Tkinter", "Matplotlib", "PyInstaller"],
       "stats": [
-        { "num": "10 502", "label": "eventos" },
-        { "num": "5 362",  "label": "críticos" },
-        { "num": "4",      "label": "módulos" },
-        { "num": "28 MB",  "label": "executável" }
+        { "num": "10 502", "label": "eventos",    "label_en": "events" },
+        { "num": "5 362",  "label": "críticos",   "label_en": "critical" },
+        { "num": "4",      "label": "módulos",    "label_en": "modules" },
+        { "num": "28 MB",  "label": "executável", "label_en": "executable" }
       ],
       "terminal": [
         { "type": "cmd", "text": "pyinstaller --onefile --windowed relatorios.py" },
@@ -156,29 +194,81 @@
         { "type": "ok",  "text": "✓ Build concluído com sucesso." }
       ],
       "link": "https://github.com/Mauriciopates/Projeto_seguranca"
+    },
+    {
+      "id": "curiosidades",
+      "name": "Curiosidades Ocultas",
+      "name_en": "Hidden Curiosities",
+      "tags": "HTML5 · CSS3 · JavaScript",
+      "year": "2026",
+      "category": "Web (Frontend)",
+      "category_en": "Web (Frontend)",
+      "image": "img/proj-curiosidades.png",
+      "desc": "Aplicação web interativa que revela curiosidades progressivamente com animações suaves de entrada. Interface minimalista com botão de revelação sequencial, feedback visual por passos e design responsivo em tema claro.",
+      "desc_en": "Interactive web app that progressively reveals curiosities with smooth entry animations. Minimalist interface with a sequential reveal button, step-by-step visual feedback and a responsive light-theme design.",
+      "stack": ["HTML5", "CSS3", "JavaScript"],
+      "stats": [
+        { "num": "3",    "label": "curiosidades", "label_en": "curiosities" },
+        { "num": "1",    "label": "botão",        "label_en": "button" },
+        { "num": "100%", "label": "responsivo",   "label_en": "responsive" },
+        { "num": "0",    "label": "dependências", "label_en": "dependencies" }
+      ],
+      "link": "https://mauriciopates.github.io/CV_Html/Projetos_html/Curiosidades_ocultas/curiosidade.html"
+    },
+    {
+      "id": "adivinha",
+      "name": "Jogo da Adivinha",
+      "name_en": "Guess the Number",
+      "tags": "HTML5 · CSS3 · JavaScript",
+      "year": "2026",
+      "category": "Web (Frontend)",
+      "category_en": "Web (Frontend)",
+      "image": "img/proj-adivinha.png",
+      "desc": "Jogo interativo onde o utilizador tenta adivinhar o número secreto entre 1 e 50. Feedback dinâmico de dicas (acima/abaixo), contador de tentativas, modo escuro alternável e botão de reinício após cada ronda. Toda a lógica em JavaScript puro.",
+      "desc_en": "Interactive game where the user tries to guess the secret number between 1 and 50. Dynamic hint feedback (higher/lower), attempt counter, toggleable dark mode and a restart button after each round. All logic in pure JavaScript.",
+      "stack": ["HTML5", "CSS3", "JavaScript"],
+      "stats": [
+        { "num": "50", "label": "números",      "label_en": "numbers" },
+        { "num": "1",  "label": "CPU",          "label_en": "CPU" },
+        { "num": "2",  "label": "temas",        "label_en": "themes" },
+        { "num": "0",  "label": "dependências", "label_en": "dependencies" }
+      ],
+      "link": "https://mauriciopates.github.io/CV_Html/Projetos_html/Jogo_adivinha/adivinha.html"
     }
   ],
 
   "formacao": [
     {
       "date": "abr 2026 – mai 2027",
+      "date_en": "Apr 2026 – May 2027",
       "title": "Técnico/a Especialista em Tecnologias e Programação de Sistemas de Informação (Nível 5)",
+      "title_en": "Specialist Technician in Information Systems Technologies and Programming (Level 5)",
       "org": "IEFP — Centro de Formação Profissional do Porto",
+      "org_en": "IEFP — Porto Professional Training Centre",
       "desc": "Curso de Especialização Tecnológica (CET). Formação avançada em engenharia de software, bases de dados relacionais e NoSQL, desenvolvimento web fullstack, algoritmia, integração de sistemas e redes.",
+      "desc_en": "Technological Specialization Course (CET). Advanced training in software engineering, relational and NoSQL databases, fullstack web development, algorithms, systems integration and networks.",
       "current": true
     },
     {
       "date": "jan 2020 – dez 2022",
+      "date_en": "Jan 2020 – Dec 2022",
       "title": "Bacharelato em Gestão Comercial",
+      "title_en": "Bachelor's Degree in Business Management",
       "org": "UNIP — Universidade Paulista",
+      "org_en": "UNIP — Universidade Paulista",
       "desc": "Formação em gestão comercial, análise de dados de vendas, marketing estratégico e operações de retalho.",
+      "desc_en": "Training in business management, sales data analysis, strategic marketing and retail operations.",
       "current": false
     },
     {
       "date": "2013 – 2022",
+      "date_en": "2013 – 2022",
       "title": "Percurso profissional em análise de dados e liderança operacional",
+      "title_en": "Professional career in data analysis and operational leadership",
       "org": "Drogarias Campeã · AHM Ace Hospitality",
+      "org_en": "Drogarias Campeã · AHM Ace Hospitality",
       "desc": "10+ anos em análise de dados comerciais, prevenção de perdas, gestão de inventário e liderança de equipas em ambientes de retalho e hotelaria.",
+      "desc_en": "10+ years in commercial data analysis, loss prevention, inventory management and team leadership in retail and hospitality environments.",
       "current": false
     }
   ],
@@ -186,50 +276,64 @@
   "certificados": [
     {
       "name": "Banco de Dados SQL do Zero ao Avançado + Projetos Reais",
+      "name_en": "SQL Database from Zero to Advanced + Real Projects",
       "issuer": "Udemy",
       "date": "jul 2026",
+      "date_en": "Jul 2026",
       "color": "#3b6cf0",
       "inicial": "U"
     },
     {
       "name": "CLC — Curso de Liderança Contemporânea",
+      "name_en": "CLC — Contemporary Leadership Course",
       "issuer": "Drogarias Campeã",
       "date": "out 2021",
+      "date_en": "Oct 2021",
       "color": "#5a85ff",
       "inicial": "DC"
     },
     {
       "name": "Comunicação e Oratória",
+      "name_en": "Communication and Public Speaking",
       "issuer": "Escola Conquer",
       "date": "ago 2021",
+      "date_en": "Aug 2021",
       "color": "#7aa0ff",
       "inicial": "C"
     },
     {
       "name": "Gestão e Liderança: Conceitos Básicos da Função Gerencial",
+      "name_en": "Management and Leadership: Basic Concepts of the Managerial Role",
       "issuer": "Fundação Getulio Vargas",
       "date": "mai 2020",
+      "date_en": "May 2020",
       "color": "#3b6cf0",
       "inicial": "FGV"
     },
     {
       "name": "Gestão de Vendas: Noções Básicas de Criação de Estratégia",
+      "name_en": "Sales Management: Basic Notions of Strategy Creation",
       "issuer": "Fundação Getulio Vargas",
       "date": "abr 2020",
+      "date_en": "Apr 2020",
       "color": "#5a85ff",
       "inicial": "FGV"
     },
     {
       "name": "Microsoft Excel 2013 — Avançado",
+      "name_en": "Microsoft Excel 2013 — Advanced",
       "issuer": "Fundação Bradesco",
       "date": "jul 2019",
+      "date_en": "Jul 2019",
       "color": "#7aa0ff",
       "inicial": "FB"
     },
     {
       "name": "Leader Coach Training",
+      "name_en": "Leader Coach Training",
       "issuer": "Instituto Brasileiro de Coaching — IBC",
       "date": "ago 2018",
+      "date_en": "Aug 2018",
       "color": "#3b6cf0",
       "inicial": "IBC"
     }

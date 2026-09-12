@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
-  <defs>
+    <defs>
     <linearGradient id="mpGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0f8a5f"/>
-      <stop offset="100%" stop-color="#14a06e"/>
+      <stop offset="0%" stop-color="#3b6cf0" />
+      <stop offset="100%" stop-color="#7aa0ff" />
     </linearGradient>
   </defs>
   <rect width="64" height="64" rx="14" ry="14" fill="url(#mpGrad)"/>
