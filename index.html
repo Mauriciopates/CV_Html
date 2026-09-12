@@ -9,7 +9,12 @@
 <meta property="og:description" content="Python · SQL · Fullstack. Pipelines ETL, modelação de dados e desenvolvimento de aplicações.">
 <meta property="og:image" content="img/perfil.png">
 <meta property="og:type" content="website">
-<link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+
+<!-- ✅ FAVICON CORRIGIDO: está na raiz, não em img/ -->
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="alternate icon" type="image/png" href="favicon.svg">
+<link rel="apple-touch-icon" href="favicon.svg">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
@@ -120,12 +125,11 @@
         <div class="diamond-stack">
           <div class="diamond diamond-back"></div>
           <div class="diamond diamond-front">
-            <!-- Fallback inline: se falhar, tenta .jpg; se falhar, mostra placeholder -->
             <img
               src="img/perfil.png"
               alt="Maurício Pates"
               class="hero-photo"
-              onerror="if(!this.dataset.t){this.dataset.t='1';this.src='img/perfil.jpg';}else if(this.dataset.t==='1'){this.dataset.t='2';this.src='img/perfil.jpeg';}else{this.classList.add('img-error');this.parentElement.classList.add('no-photo');}"
+              onerror="if(!this.dataset.t){this.dataset.t='1';this.src='img/perfil.jpg';}else if(this.dataset.t==='1'){this.dataset.t='2';this.src='img/perfil.jpeg';}else if(this.dataset.t==='2'){this.dataset.t='3';this.src='img/Perfil.png';}else{this.classList.add('img-error');this.parentElement.classList.add('no-photo');}"
             >
           </div>
         </div>
