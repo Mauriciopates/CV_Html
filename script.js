@@ -94,7 +94,7 @@ const I18N = {
   pt: {
     'nav.perfil':'Perfil','nav.projetos':'Projetos','nav.formacao':'Formação','nav.sobre':'Sobre','nav.contacto':'Contacto',
     'hero.eyebrow':'Disponível para Formação em Contexto de Trabalho · nov 2026',
-    'hero.title':'Desenvolvedor Fullstack & Analista de Dados',
+    'hero.title':'Estudante de Desenvolvimento Fullstack & Dados',
     'hero.stack':'Python · SQL · Fullstack — Especialista em Sistemas de Informação (TPSI). Pipelines ETL, modelação de dados e desenvolvimento de aplicações.',
     'hero.projects':'Ver Projetos','hero.badge':'Técnico Esp. TPSI · IEFP Porto',
     'dashboard.tag':'// dashboard','dashboard.title':'Competências técnicas',
@@ -120,6 +120,7 @@ const I18N = {
     'sobre.p2':'Construí um sistema de gestão para 22 unidades de alojamento em Python e MySQL, e um pipeline de importação de dados públicos para MySQL — aplicando à programação o mesmo raciocínio analítico da experiência anterior.',
     'sobre.p3':'Disponível para Formação em Contexto de Trabalho (ECT) a partir de novembro de 2026.',
     'sobre.cv':'Descarregar CV','sobre.local':'Localização','sobre.email':'Email','sobre.formacao':'Formação','sobre.langs':'Idiomas',
+    'sobre.langs.value':'PT · EN (leitura/escrita: intermédio · fala: básico)',
     'contacto.tag':'// contacto','contacto.title':'Vamos falar',
     'contacto.sub':'Propostas de Formação em Contexto de Trabalho, colaborações ou conversa técnica — envia mensagem.',
     'form.name':'Nome','form.name.ph':'O teu nome','form.email':'Email','form.email.ph':'nome@empresa.com',
@@ -132,7 +133,7 @@ const I18N = {
   en: {
     'nav.perfil':'Profile','nav.projetos':'Projects','nav.formacao':'Education','nav.sobre':'About','nav.contacto':'Contact',
     'hero.eyebrow':'Available for Work Context Training · Nov 2026',
-    'hero.title':'Fullstack Developer & Data Analyst',
+    'hero.title':'Fullstack Development & Data Analysis Student',
     'hero.stack':'Python · SQL · Fullstack — Information Systems Specialist (TPSI). ETL pipelines, data modeling and application development.',
     'hero.projects':'View Projects','hero.badge':'TPSI Specialist · IEFP Porto',
     'dashboard.tag':'// dashboard','dashboard.title':'Technical skills',
@@ -158,6 +159,7 @@ const I18N = {
     'sobre.p2':'I built a management system for 22 accommodation units in Python and MySQL, plus a public data import pipeline to MySQL — applying to programming the same analytical thinking from my previous experience.',
     'sobre.p3':'Available for Work Context Training (ECT) from November 2026.',
     'sobre.cv':'Download CV','sobre.local':'Location','sobre.email':'Email','sobre.formacao':'Education','sobre.langs':'Languages',
+    'sobre.langs.value':'PT · EN (reading/writing: intermediate · speaking: basic)',
     'contacto.tag':'// contact','contacto.title':"Let's talk",
     'contacto.sub':'Work Context Training offers, collaborations or tech talk — send a message.',
     'form.name':'Name','form.name.ph':'Your name','form.email':'Email','form.email.ph':'name@company.com',
@@ -302,11 +304,12 @@ const Skills = (() => {
   function iconTile(skill, index) {
     const url = ICON_URLS[skill.name];
     const delay = (index * 55) + 'ms';
+    const tier = field(skill, 'tier');
     const inner = url
       ? `<img src="${url}" alt="${skill.name}" loading="lazy" width="42" height="42">`
       : `<div class="skill-fallback">${skill.name.charAt(0)}</div>`;
     return `
-      <div class="skill-tile" style="animation-delay:${delay}" title="${skill.name} · ${skill.level}%">
+      <div class="skill-tile" style="animation-delay:${delay}" title="${skill.name}${tier ? ' · ' + tier : ''}">
         ${inner}
         <span class="skill-tile-name">${skill.name}</span>
       </div>`;
@@ -478,6 +481,15 @@ const Projects = (() => {
     });
   }
 
+  const ROW_LABELS = {
+    pt: { name: 'nome', stack: 'stack', year: 'ano',  category: 'categoria_id', link: 'link' },
+    en: { name: 'name', stack: 'stack', year: 'year', category: 'category_id',  link: 'link' }
+  };
+  function rowLabel(key) {
+    const lang = (window.Lang && Lang.current) ? Lang.current() : 'pt';
+    return (ROW_LABELS[lang] || ROW_LABELS.pt)[key];
+  }
+
   function buildTableSpec(proj) {
     return {
       id: proj.id,
@@ -491,12 +503,12 @@ const Projects = (() => {
       stack: proj.stack || [],
       link: proj.link || '',
       rows: [
-        { key: 'PK', name: 'id',           type: 'int' },
-        { key: '',   name: 'nome',         type: 'varchar' },
-        { key: '',   name: 'stack',        type: 'varchar[]' },
-        { key: '',   name: 'ano',          type: 'year' },
-        { key: 'FK', name: 'categoria_id', type: 'int' },
-        { key: '',   name: 'link',         type: 'url' }
+        { key: 'PK', name: 'id',                    type: 'int' },
+        { key: '',   name: rowLabel('name'),        type: 'varchar' },
+        { key: '',   name: rowLabel('stack'),       type: 'varchar[]' },
+        { key: '',   name: rowLabel('year'),        type: 'year' },
+        { key: 'FK', name: rowLabel('category'),    type: 'int' },
+        { key: '',   name: rowLabel('link'),        type: 'url' }
       ]
     };
   }

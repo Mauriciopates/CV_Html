@@ -62,6 +62,14 @@
 
   --container: 1280px;
   --nav-h: 68px;
+
+  --project-card-bg-1: rgba(10, 20, 40, 0.95);
+  --project-card-bg-2: rgba(5, 10, 25, 0.98);
+  --project-stat-bg: rgba(10, 20, 40, 0.6);
+  --project-stat-bg-hover: rgba(15, 30, 60, 0.8);
+  --project-tag-bg: rgba(15, 30, 60, 0.7);
+  --project-process-bg: rgba(10, 20, 40, 0.6);
+  --project-process-bg-hover: rgba(15, 30, 60, 0.9);
 }
 
 [data-theme="light"] {
@@ -84,6 +92,14 @@
   --shadow-sm: 0 1px 2px rgba(10, 20, 32, 0.05), 0 2px 6px rgba(10, 20, 32, 0.04);
   --shadow: 0 4px 14px rgba(10, 20, 32, 0.06), 0 12px 32px -12px rgba(10, 20, 32, 0.1);
   --shadow-lg: 0 20px 50px -20px rgba(10, 20, 32, 0.18), 0 8px 20px -8px rgba(10, 20, 32, 0.08);
+
+  --project-card-bg-1: rgba(255, 255, 255, 0.92);
+  --project-card-bg-2: rgba(240, 244, 251, 0.97);
+  --project-stat-bg: rgba(255, 255, 255, 0.75);
+  --project-stat-bg-hover: rgba(234, 240, 250, 0.95);
+  --project-tag-bg: rgba(234, 240, 250, 0.95);
+  --project-process-bg: rgba(255, 255, 255, 0.75);
+  --project-process-bg-hover: rgba(234, 240, 250, 0.95);
 }
 
 /* ─────────────────────────────────────────────
@@ -666,7 +682,7 @@ ul { list-style: none; }
   align-items: start;
   padding: clamp(1.75rem, 4vw, 3rem);
   background:
-    linear-gradient(135deg, rgba(10, 20, 40, 0.95), rgba(5, 10, 25, 0.98)),
+    linear-gradient(135deg, var(--project-card-bg-1), var(--project-card-bg-2)),
     radial-gradient(ellipse 80% 60% at 100% 0%, rgba(59, 108, 240, 0.12), transparent 60%);
   border: 1.5px solid color-mix(in srgb, var(--accent) 55%, transparent);
   border-radius: var(--radius-lg);
@@ -727,7 +743,7 @@ ul { list-style: none; }
   font-weight: 700;
   letter-spacing: -0.04em;
   line-height: 1.05;
-  color: #fff;
+  color: var(--text);
   margin: 0;
 }
 
@@ -765,7 +781,7 @@ ul { list-style: none; }
   color: var(--accent-3);
   font-weight: 700;
 }
-.project-block-desc strong { color: #fff; font-weight: 700; }
+.project-block-desc strong { color: var(--text); font-weight: 700; }
 
 /* ═══════════════════════════════════════════
    STATS — 1 big + 3 small numa linha
@@ -785,7 +801,7 @@ ul { list-style: none; }
   justify-content: center;
   gap: 0.35rem;
   padding: 0.9rem 1rem;
-  background: rgba(10, 20, 40, 0.6);
+  background: var(--project-stat-bg);
   border: 1px solid color-mix(in srgb, var(--accent) 25%, var(--border));
   border-radius: 12px;
   transition: all var(--t);
@@ -795,7 +811,7 @@ ul { list-style: none; }
 
 .project-stat:hover {
   border-color: color-mix(in srgb, var(--accent) 55%, transparent);
-  background: rgba(15, 30, 60, 0.8);
+  background: var(--project-stat-bg-hover);
   transform: translateY(-2px);
 }
 
@@ -856,7 +872,7 @@ ul { list-style: none; }
 .project-stat.is-big .project-stat-lbl {
   font-size: 0.84rem;
   font-weight: 700;
-  color: #fff;
+  color: var(--text);
   letter-spacing: -0.005em;
   line-height: 1.25;
 }
@@ -943,7 +959,7 @@ ul { list-style: none; }
   font-weight: 500;
   padding: 0.4rem 0.9rem;
   border-radius: 999px;
-  background: rgba(15, 30, 60, 0.7);
+  background: var(--project-tag-bg);
   border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
   color: var(--accent-3);
   letter-spacing: -0.005em;
@@ -975,12 +991,12 @@ ul { list-style: none; }
   padding: 0.8rem 1.5rem;
   border-radius: 10px;
   font-size: 0.9rem;
-  background: rgba(10, 20, 40, 0.6);
+  background: var(--project-process-bg);
   border: 1px solid color-mix(in srgb, var(--accent) 25%, var(--border-strong));
   color: var(--text);
 }
 .project-block-actions .btn-process:hover {
-  background: rgba(15, 30, 60, 0.9);
+  background: var(--project-process-bg-hover);
   border-color: var(--accent);
   color: var(--accent-3);
 }
@@ -1512,6 +1528,44 @@ a.info-value:hover { color: var(--accent-3); }
   transition: opacity 700ms cubic-bezier(0.22, 1, 0.36, 1), transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 .reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ═══════════════════════════════════════════
+   CARD DESTAQUE — texto segue o tema (claro/escuro)
+   ═══════════════════════════════════════════ */
+
+/* Todos os textos dentro do card, incluindo <p>, <li>, <ul>, <strong> */
+.project-block .project-block-title,
+.project-block .project-block-desc,
+.project-block .project-block-desc p,
+.project-block .project-block-desc ul,
+.project-block .project-block-desc ol,
+.project-block .project-block-desc li,
+.project-block .project-block-desc span,
+.project-block .project-stat-lbl,
+.project-block .project-stat-sub {
+  color: var(--text-dim);
+}
+
+.project-block .project-block-title,
+.project-block .project-block-desc strong,
+.project-block .project-block-desc b {
+  color: var(--text);
+}
+
+.project-block .project-stat-num {
+  color: var(--accent-3);
+}
+
+.project-block .tag {
+  color: var(--accent-3);
+}
+
+.project-block-actions .btn-process {
+  background: var(--project-process-bg);
+  border-color: color-mix(in srgb, var(--accent) 25%, var(--border-strong));
+  color: var(--text);
+}
+
 
 @media (prefers-reduced-motion: no-preference) {
   .reveal { animation: revealFallback 0ms linear 3000ms forwards; }
