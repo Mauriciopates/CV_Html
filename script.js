@@ -93,7 +93,6 @@ const Data = (() => {
 const I18N = {
   pt: {
     'nav.perfil':'Perfil','nav.projetos':'Projetos','nav.formacao':'Formação','nav.sobre':'Sobre','nav.contacto':'Contacto',
-    'hero.eyebrow':'Disponível para Formação em Contexto de Trabalho · nov 2026',
     'hero.title':'Estudante de Desenvolvimento Fullstack & Dados',
     'hero.stack':'Python · SQL · Fullstack — Especialista em Sistemas de Informação (TPSI). Pipelines ETL, modelação de dados e desenvolvimento de aplicações.',
     'hero.projects':'Ver Projetos','hero.badge':'Técnico Esp. TPSI · IEFP Porto',
@@ -104,7 +103,8 @@ const I18N = {
     'projects.highlightSub':'O projeto principal do portfólio, com arquitetura completa e terminal interativo.',
     'projects.code':'Ver código ↗','projects.process':'Ver processo','projects.processClose':'Fechar processo',
     'er.tag':'// outros projetos','er.title':'Demais Trabalhos Técnicos',
-    'er.sub':'Esquema relacional dos restantes projetos — clica em cada tabela para veres o detalhe.',
+    'er.sub.lead':'Esquema relacional dos restantes projetos —',
+    'er.sub.cta':'clica em cada tabela para veres o detalhe.',
     'er.close':'Fechar','er.prev':'Projeto anterior','er.next':'Próximo projeto',
     'formacao.tag':'// formação','formacao.title':'Percurso académico & técnico',
     'formacao.sub':'Formação técnica especializada e certificações complementares ao longo dos últimos anos.',
@@ -132,7 +132,6 @@ const I18N = {
   },
   en: {
     'nav.perfil':'Profile','nav.projetos':'Projects','nav.formacao':'Education','nav.sobre':'About','nav.contacto':'Contact',
-    'hero.eyebrow':'Available for Work Context Training · Nov 2026',
     'hero.title':'Fullstack Development & Data Analysis Student',
     'hero.stack':'Python · SQL · Fullstack — Information Systems Specialist (TPSI). ETL pipelines, data modeling and application development.',
     'hero.projects':'View Projects','hero.badge':'TPSI Specialist · IEFP Porto',
@@ -143,7 +142,8 @@ const I18N = {
     'projects.highlightSub':'The portfolio’s flagship project, with full architecture and an interactive terminal.',
     'projects.code':'View code ↗','projects.process':'View process','projects.processClose':'Close process',
     'er.tag':'// other projects','er.title':'Other Technical Work',
-    'er.sub':'Relational schema of the remaining projects — click each table to see the details.',
+    'er.sub.lead':'Relational schema of the remaining projects —',
+    'er.sub.cta':'click each table to see the details.',
     'er.close':'Close','er.prev':'Previous project','er.next':'Next project',
     'formacao.tag':'// education','formacao.title':'Academic & technical path',
     'formacao.sub':'Specialized technical training and complementary certifications over recent years.',
@@ -212,13 +212,14 @@ const Lang = (() => {
    MÓDULO 3 — TEMA
 ───────────────────────────────────────────── */
 const Theme = (() => {
-  const KEY = 'theme', DEFAULT = 'dark';
+  const DEFAULT = 'dark';
   function apply(t) {
     document.documentElement.setAttribute('data-theme', t);
-    localStorage.setItem(KEY, t);
   }
   function init() {
-    apply(localStorage.getItem(KEY) || DEFAULT);
+    // O tema por omissão é sempre escuro ao aceder ao site — não fica
+    // guardado entre visitas, para nunca abrir em claro sem se querer.
+    apply(DEFAULT);
     $('#themeToggle')?.addEventListener('click', () => {
       const cur = document.documentElement.getAttribute('data-theme') || DEFAULT;
       apply(cur === 'dark' ? 'light' : 'dark');
@@ -656,10 +657,19 @@ const Projects = (() => {
     while (svg.firstChild) svg.removeChild(svg.firstChild);
     if ($('#erDiagram.has-expanded')) return;
 
-    const nodeInfo = nodes.map((n, i) => ({ node: n, index: i, ports: getPorts(n, wrapRect) }));
+    const nodeInfo = nodes.map((n, i) => ({ node: n, index: i, rect: n.getBoundingClientRect(), ports: getPorts(n, wrapRect) }));
     const pairs = [];
     for (let i = 0; i < nodeInfo.length - 1; i++) {
-      pairs.push({ from: nodeInfo[i], fromSide: 'right', to: nodeInfo[i + 1], toSide: 'left', style: 'primary' });
+      const a = nodeInfo[i], b = nodeInfo[i + 1];
+      // Se a próxima tabela está na mesma linha da grelha, liga direita→esquerda
+      // (fluxo normal). Se a grelha quebrou linha, liga por baixo→cima, como
+      // um conector em cotovelo de diagrama de base de dados a "descer de fila".
+      const sameRow = Math.abs(a.rect.top - b.rect.top) < 16;
+      if (sameRow) {
+        pairs.push({ from: a, fromSide: 'right', to: b, toSide: 'left', style: 'primary' });
+      } else {
+        pairs.push({ from: a, fromSide: 'bottom', to: b, toSide: 'top', style: 'primary' });
+      }
     }
     for (let i = 0; i < nodeInfo.length; i++) {
       for (let j = i + 1; j < nodeInfo.length; j++) {
@@ -939,6 +949,68 @@ const ContactForm = (() => {
 })();
 
 /* ─────────────────────────────────────────────
+   MÓDULO 10.5 — MÁQUINA DE ESCREVER (destaque "clica em cada tabela")
+───────────────────────────────────────────── */
+const TypeCta = (() => {
+  const SPEED = 45; // ms por caractere — ritmo de escrita mais pausado
+  let typed = false;
+  let gen = 0;
+
+  function currentText() {
+    const dict = I18N[Lang.current()] || I18N.pt;
+    return dict['er.sub.cta'] || '';
+  }
+
+  async function type(el, wrap, text) {
+    const myGen = ++gen;
+    el.textContent = '';
+    if (wrap) wrap.setAttribute('aria-label', text);
+    for (let i = 0; i < text.length; i++) {
+      if (myGen !== gen) return; // uma escrita mais recente (troca de idioma) cancelou esta
+      el.textContent += text[i];
+      await sleep(SPEED);
+    }
+  }
+
+  function setup() {
+    const el = $('.er-sub-cta-text');
+    const wrap = $('.er-sub-cta');
+    // Observamos o cabeçalho "Demais Trabalhos Técnicos" (bloco grande e
+    // estável), não o próprio texto a escrever — este começa vazio/minúsculo
+    // e um elemento assim tão pequeno confunde o IntersectionObserver,
+    // disparando cedo demais (por vezes logo ao abrir a página).
+    const target = $('.section-head-er');
+    if (!el || !wrap || !target) return;
+
+    function reveal() { if (!typed) { typed = true; type(el, wrap, currentText()); } }
+
+    function startObserving() {
+      if (!('IntersectionObserver' in window)) { reveal(); return; }
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) { reveal(); io.disconnect(); } });
+      }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' }); // mesmo critério do resto do site (.reveal)
+      io.observe(target);
+    }
+
+    // Só começa a "vigiar" o scroll depois da página (imagens incluídas)
+    // estar totalmente carregada — assim o cálculo de posição já é o
+    // definitivo, e não dispara nem faz a página "saltar" enquanto as
+    // imagens ainda estão a carregar e a empurrar o layout.
+    if (document.readyState === 'complete') {
+      startObserving();
+    } else {
+      window.addEventListener('load', startObserving, { once: true });
+    }
+
+    document.addEventListener('langchange', () => {
+      if (typed) type(el, wrap, currentText());
+    });
+  }
+
+  return { setup };
+})();
+
+/* ─────────────────────────────────────────────
    MÓDULO 11 — UI EXTRAS
 ───────────────────────────────────────────── */
 const UI = (() => {
@@ -1017,6 +1089,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   UI.init();
   ContactForm.init();
   UI.initReveal();
+  TypeCta.setup();
 
   setTimeout(() => Projects.redraw(), 400);
   setTimeout(() => Projects.redraw(), 1200);

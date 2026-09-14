@@ -344,6 +344,33 @@ ul { list-style: none; }
 
 .section-sub { color: var(--text-dim); font-size: 0.98rem; line-height: 1.65; max-width: 640px; }
 
+.er-sub-cta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.35rem;
+  flex-wrap: wrap;
+}
+.er-sub-cta .pulse-dot { flex-shrink: 0; }
+.er-sub-cta-typed { display: inline-block; min-height: 1.2em; }
+.er-sub-cta-text {
+  color: var(--accent-3);
+  font-weight: 700;
+  font-family: var(--font-mono);
+  font-size: 1.08em;
+  letter-spacing: -0.01em;
+}
+.cta-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  margin-left: 1px;
+  background: var(--accent-3);
+  vertical-align: -0.15em;
+  animation: ctaBlink 1s step-end infinite;
+}
+@keyframes ctaBlink { 50% { opacity: 0; } }
+
 /* HERO */
 .hero {
   display: grid;
